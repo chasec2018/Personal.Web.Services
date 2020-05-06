@@ -3,8 +3,15 @@ using System.IO;
 using System.Text.Json;
 using System.Collections.Generic;
 
+using System.Configuration;
+using System.Linq;
+using System.Net;
+using System.Security.Cryptography;
+using System.Net.Sockets;
+
 namespace ResumeService.Services
 {
+      
     public enum JsonAppDataObjectType
     {
         ArrayType,

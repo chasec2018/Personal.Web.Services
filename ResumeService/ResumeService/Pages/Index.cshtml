@@ -25,7 +25,7 @@
                         <div class="modal-body bg-dark text-light">
                             <pre>
                                 <code class="text-light">
-using System;
+'using System;
 using System.IO;
 using ResumeServiceModels;
 using ResumeServiceServices;
@@ -84,7 +84,7 @@ namespace ResumeService.Pages
            
         }
     }
-}
+}'
 
                                 </code>    
                             </pre>
@@ -188,10 +188,10 @@ namespace ResumeService.Pages
                                         @foreach (var language in Model.TechnicalAbilities.ProgrammingLanguages)
                                         {
                                             <div class="row">
-                                                <div class="col-2">
+                                                <div class="col-sm-2">
                                                     <h6 class="h6">@language.Key</h6>
                                                 </div>
-                                                <div class="col-10">
+                                                <div class="col-sm-10">
                                                     <p class="small">
                                                         @language.Value
                                                     </p>
@@ -206,10 +206,10 @@ namespace ResumeService.Pages
                                         @foreach (var scripting in Model.TechnicalAbilities.ScriptingLanguages)
                                         {
                                             <div class="row">
-                                                <div class="col-2">
+                                                <div class="col-sm-3">
                                                     <h6 class="h6">@scripting.Key</h6>
                                                 </div>
-                                                <div class="col-10">
+                                                <div class="col-sm-9">
                                                     <p class="small">
                                                         @scripting.Value
                                                     </p>
@@ -224,10 +224,10 @@ namespace ResumeService.Pages
                                         @foreach (var dbms in Model.TechnicalAbilities.DatabaseManagement)
                                         {
                                             <div class="row">
-                                                <div class="col-2">
+                                                <div class="col-sm-2">
                                                     <h6 class="h6">@dbms.Key</h6>
                                                 </div>
-                                                <div class="col-10">
+                                                <div class="col-sm-10">
                                                     <p class="small">
                                                         @dbms.Value
                                                     </p>
@@ -242,10 +242,10 @@ namespace ResumeService.Pages
                                         @foreach (var CloudService in Model.TechnicalAbilities.CloudServices)
                                         {
                                             <div class="row">
-                                                <div class="col-2">
+                                                <div class="col-sm-2">
                                                     <h6 class="h6">@CloudService.Key</h6>
                                                 </div>
-                                                <div class="col-10">
+                                                <div class="col-sm-10">
                                                     <p class="small">
                                                         @CloudService.Value
                                                     </p>
@@ -260,10 +260,10 @@ namespace ResumeService.Pages
                                         @foreach (var ReportingTool in Model.TechnicalAbilities.ReportingTools)
                                         {
                                             <div class="row">
-                                                <div class="col-2">
+                                                <div class="col-sm-2">
                                                     <h6 class="h6">@ReportingTool.Key</h6>
                                                 </div>
-                                                <div class="col-10">
+                                                <div class="col-sm-10">
                                                     <p class="small">
                                                         @ReportingTool.Value
                                                     </p>
@@ -278,10 +278,10 @@ namespace ResumeService.Pages
                                         @foreach (var IntegrationTool in Model.TechnicalAbilities.EtlTools)
                                         {
                                             <div class="row">
-                                                <div class="col-2">
+                                                <div class="col-sm-2">
                                                     <h6 class="h6">@IntegrationTool.Key</h6>
                                                 </div>
-                                                <div class="col-10">
+                                                <div class="col-sm-10">
                                                     <p class="small">
                                                         @IntegrationTool.Value
                                                     </p>
@@ -296,10 +296,10 @@ namespace ResumeService.Pages
                                         @foreach (var Architecture in Model.TechnicalAbilities.Architectures)
                                         {
                                             <div class="row">
-                                                <div class="col col-sm-3">
+                                                <div class="col-sm-3">
                                                     <h6 class="h6">@Architecture.Key</h6>
                                                 </div>
-                                                <div class="col col-sm-9">
+                                                <div class="col-sm-9">
                                                     <p class="small">
                                                         @Architecture.Value
                                                     </p>
@@ -314,10 +314,10 @@ namespace ResumeService.Pages
                                         @foreach (var DesignPattern in Model.TechnicalAbilities.DesignPatterns)
                                         {
                                             <div class="row">
-                                                <div class="col col-2">
+                                                <div class="col-sm-3">
                                                     <h6 class="h6">@DesignPattern.Key</h6>
                                                 </div>
-                                                <div class="col col-10">
+                                                <div class="col-sm-9">
                                                     <p class="small">
                                                         @DesignPattern.Value
                                                     </p>
@@ -332,10 +332,10 @@ namespace ResumeService.Pages
                                         @foreach (var item in Model.TechnicalAbilities.Networking)
                                         {
                                             <div class="row">
-                                                <div class="col-2">
+                                                <div class="col-sm-2">
                                                     <h6 class="h6">@item.Key</h6>
                                                 </div>
-                                                <div class="col-10">
+                                                <div class="col-sm-10">
                                                     <p class="small">
                                                         @item.Value
                                                     </p>
@@ -350,10 +350,10 @@ namespace ResumeService.Pages
                                         @foreach (var item in Model.TechnicalAbilities.Other)
                                         {
                                             <div class="row">
-                                                <div class="col col-sm-3">
+                                                <div class="col-sm-3">
                                                     <h6 class="h6">@item.Key</h6>
                                                 </div>
-                                                <div class="col col-sm-9">
+                                                <div class="col-sm-9">
                                                     <p class="small">
                                                         @item.Value
                                                     </p>
@@ -370,6 +370,9 @@ namespace ResumeService.Pages
                     <ul>
                         <li>
                             ORM (Object Relation Mapping) vs Database Project Implementation?
+                        </li>
+                        <li>
+                            MVC, a Design Pattern or an Architecture Pattern?
                         </li>
                     </ul>
                 </div>

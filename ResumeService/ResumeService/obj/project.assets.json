@@ -15,11 +15,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\chase\\source\\Repos (Project)\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj",
+      "projectUniqueName": "P:\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj",
       "projectName": "ResumeService",
-      "projectPath": "C:\\Users\\chase\\source\\Repos (Project)\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj",
+      "projectPath": "P:\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj",
       "packagesPath": "C:\\Users\\chase\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\chase\\source\\Repos (Project)\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\obj\\",
+      "outputPath": "P:\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",

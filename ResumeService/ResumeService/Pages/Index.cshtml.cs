@@ -46,7 +46,7 @@ namespace ResumeService.Pages
             // get path for Json File in Root Directory
             string path = Path.Combine(WebHostEnvironment.ContentRootPath, "Data\\technical-ability.json");
 
-            // Convert Binary Images into Base 64 string 
+            // Convert Binary Images into Base 64 string
             string base64 = Convert.ToBase64String(Resources.ProfileImage);
 
             // Set Profile with converted string

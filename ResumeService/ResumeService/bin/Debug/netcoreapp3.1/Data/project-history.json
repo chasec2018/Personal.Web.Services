@@ -1,84 +1,75 @@
 [
   {
-    "AccordianID": 1001,
-    "HeaderID": 2001,
-    "ProjectTitle": "Backflush Implementation Project",
-    "Timeline": "Jun 2018 - Oct 2018",
-    "Company": "Denso Corporation",
-    "Overview": "Here is a breif overview",
-    "Technology": [
-      "SSIS (Microsoft Integration Services)",
-      "SQL Server"
-    ],
-    "Languages": [
-      "Python",
-      "PowerShell"
-    ]
-  },
-
-  {
-    "AccordianID": 1002,
-    "HeaderID": 2002,
-    "ProjectTitle": "SQL Server Migration Initiative",
+    "Accordian ID": 1002,
+    "Header ID": 2002,
+    "Project Title": "SQL Server Migration Initiative",
     "Timeline": "Jun 2019 - Sep 2019",
     "Company": "Lowe's Corporation",
-    "Overview": "Due to Microsoft no longer supporting SQL Server 2008 and the in-ability of an in-place upgrade there was a need to migrate to 2016 as well as the added services such as Integration Services, SSRS Report Server. This is initiative also required ",
+    "Overview": "This project consisted of several requirements which supported the migration of SQL Server Object from 2008 to 2016 version. Some of the task consisted of SSIS Packages being upgrated and stored in Integration Services rather than MSDB, scripting out server object utilizing SMO, and refactoring both SSRS Reports and SSIS Packages as well as converion of SSRS to Power BI.",
     "Technology": [
-      "PowerShell",
-      "SSRS",
-      "Power BI",
-      "SSIS"
+      "Microsoft SQL Server",
+      "Microsoft SSRS (SQL Server Reporting Services)",
+      "Microsoft Power BI",
+      "Microsoft SSIS (SQL Server Integration Services)",
+      "PowerShell"
     ],
     "Languages": [
-      "VB"
+      "VB",
+      "C#"	
     ]
   },
 
   {
-    "AccordianID": 1003,
-    "HeaderID": 2003,
-    "ProjectTitle": "Tableau Server API Integration",
+    "Accordian ID": 1003,
+    "Header ID": 2003,
+    "Project Title": "Tableau Server API Integration",
     "Timeline": "Nov 2019 - Feb 2020",
     "Company": "DCLI Inc, (Direct ChassisLink Inc)",
     "Overview": "The following project was implemented as a way to centralize management of external resources by utilizing the available Tableau Server APIs to maintain the current Report Server. A UI was integrated with the pre-existing arhitecture and deployed as part of a larger solution under a Microservices Architectural Pattern.",
     "Technology": [
-      "Azure API Gateway Management",
-      "Azure Key Vaut (For Service Account Management)",
+      "Microsoft Azure API Gateway Management",
+      "Microsoft Azure Key Vaut (For Service Account Management)",
       "Docker",
       "Jenkins (For Automated Deployment)",
       "Postman",
       "Bitbucket"
     ],
     "Languages": [
-      "C#"
+      "C#",
+      "T-SQL",
+      "MySQL",
+      "ASP.NET",
+      "JavaScript",
+      "PowerShell"
     ]
   },
 
   {
-    "AccordianID": 1004,
-    "HeaderID": 2004,
-    "ProjectTitle": "Secure Store API Project",
+    "Accordian ID": 1004,
+    "Header ID": 2004,
+    "Project Title": "Secret Secure Store API Project",
     "Timeline": "Nov 2017 - Jan 2018",
     "Company": "Personal Initiative",
     "Overview": "Though cloud services offer a more secure service for storing and retreiving sensitive secrets, this is one of the first project I created with a successful architectural implementation of MVC pattern while utilizing Dependency Injection. All data is sotred in SQL Server Tables with a Symmetric Key Encryption that is passphrase protected. By generating an API Key each request is authenticated through a action filter attribute which sends back an UnAuthorized response if access is denied.",
     "Technology": [
       "IIS",
-      "SQL Server",
-      "Postman"
+      "Microsoft SQL Server",
+      "Postman",
+      "Microsoft Active Directory Authentication"
     ],
     "Languages": [
       "C#",
-      "SQL"
+      "T-SQL"
     ]
   },
 
   {
-    "AccordianID": 1005,
-    "HeaderID": 2005,
-    "ProjectTitle": "BeaGov API Integration",
+    "Accordian ID": 1005,
+    "Header ID": 2005,
+    "Project Title": "Bureau of Economic Analytics API Integration Service",
     "Timeline": "Nov 2017 - Jan 2018",
     "Company": "DCLI Inc, (Direct ChassisLink Inc)",
-    "Overview": "Though a short lived project the . A request was made to implement 300 datasets into the company's personal Data Warehouse.",
+    "Overview": "A simple project to integrate five different dataset from the available APIs offered by the Bureau of Economic Analytics which consisited of 300 total tables. This project was meant to support the finance department for forecasting future recession indicators.",
     "Technology": [
       "SQL Server",
       "Postman"
@@ -87,6 +78,22 @@
       "C#",
       "SQL"
     ]
+  },
+	
+  {
+    "Accordian ID": 1001,
+    "Header ID": 2001,
+    "Project Title": "Backflush Implementation Project",
+    "Timeline": "Jun 2018 - Oct 2018",
+    "Company": "Denso Corporation",
+    "Overview": "Implementation of a REST APIs which processed finished good stock-in transactions and stocked-out the meaterial requirements through a BOM explosion.",
+    "Technology": [
+      "DB2",
+      "SQL"
+    ],
+    "Languages": [
+      "Python",
+      "PowerShell"
+    ]
   }
-
 ]

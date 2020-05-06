@@ -1,0 +1,173 @@
+﻿@page
+@model ResumeService.Pages.Forms.ContactModel
+@{
+    ViewData["Title"] = "Contact";
+}
+
+    <div class="container-fluid mb-3">
+        <div class="text-center">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#csharp-contact-page">C#</button>
+        </div>
+
+        <div class="modal fade" id="csharp-contact-page" tabindex="-1" role="dialog" aria-labelledby="csharp-contact-page-title" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="csharp-index-page-title">C# Code Behind Pages</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body bg-dark">
+                        <pre>
+                            <code class="text-light">
+'using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
+using ccrawford.Properties;
+using ccrawford.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+
+namespace ccrawford.Pages.Forms
+{
+    public class ContactModel : PageModel
+    {
+        private readonly ILogger<'ContactModel> Logger;
+
+        public ContactModel(ILogger<'ContactModel> _Logger)
+        {
+            Logger = _Logger;
+            EmailSent = false;
+        }
+
+        [BindProperty]
+        public bool EmailSent { get; set; }
+
+        [BindProperty]
+        public EmailModel Email { get; set; }
+
+        public void OnGet()
+        {
+            
+        }
+
+        public async Task<'ActionResult> OnPost()
+        { 
+            using (SmtpClient smtp = new SmtpClient(Resources.SmtpDeliveryServer,587))
+            {
+                try
+                {
+                    smtp.Credentials = new NetworkCredential(Resources.SmtpDeliveryUsername,Resources.SmtpDeliveryPassword);
+                    smtp.EnableSsl = true;
+
+                    if (Email.Affiliation == null)
+                        Email.Affiliation = "NA";
+
+                    if (Email.Title == null)
+                        Email.Title = "NA";
+
+                    MailMessage message = new MailMessage()
+                    {
+                        Body = $"Requester: {Email.FirstName} {Email.LastName} <'br /> " +
+                               $"Affiliation: {Email.Affiliation} <'br /> " +
+                               $"Job Title: {Email.Title} <'br /> " +
+                               $"Contact Email: {Email.Email} <'br /> " +
+                               $"Contact Phone: {Email.PhoneNumber} <'br /> " +
+                               $"Subject Matter:{Email.Subject} <'br /> <'br /> " +
+                               $"{Email.Message}" ,
+                        Subject = $"Recruitment Enquiry: {Email.FirstName} {Email.LastName}",
+                        From = (new MailAddress(Email.Email))
+                    };
+                    message.IsBodyHtml = true;
+                    message.To.Add(Resources.SmtpDeliveryUsername);
+                    await smtp.SendMailAsync(message).ConfigureAwait(true);
+                }
+                catch (Exception exception)
+                {
+                    Logger.LogError("EMail POST Error", exception);
+                    return RedirectToPage("/Error");
+                }
+            }
+            EmailSent = true;
+            return Page();
+        }
+    }
+}'
+                            </code>    
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="asp-index-page" tabindex="-1" role="dialog" aria-labelledby="asp-index-page-title" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="asp-index-page-title">C# Code Behind Pages</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body bg-dark text-light">
+                        <pre>
+                            <code>
+
+                            </code>    
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@if (Model.EmailSent.Equals(false))
+{
+    <div class="container-fluid">
+        <form method="post">
+            <h6 class="h6 m-2">Contact Info:</h6>
+            <div class="row">
+                <div class="col">
+                    <input type="text" required class="form-control m-2" placeholder="First Name" tabindex="1" asp-for="Email.FirstName" />
+                    <input type="text" required class="form-control m-2" placeholder="Last Name" tabindex="2" asp-for="Email.LastName" />
+                    <input type="text" class="form-control m-2" placeholder="Company Affiliation (Optional)" tabindex="3" asp-for="Email.Affiliation" />
+                    <input type="text" class="form-control m-2" placeholder="Title (Optional)" tabindex="4" asp-for="Email.Title" />
+                </div>
+
+                <div class="col">
+                    <input type="text" required class="form-control m-2" placeholder="Email Address" tabindex="5" asp-for="Email.Email" />
+                    <input type="text" required class="form-control m-2" placeholder="Phone Number" tabindex="6" asp-for="Email.PhoneNumber" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <input type="text" required class="form-control m-2" placeholder="Subject" tabindex="7" asp-for="Email.Subject" />
+                    <textarea class="form-control m-2" aria-label="message" tabindex="8" placeholder="Message" asp-for="Email.Message"></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary m-2" tabindex="9">Send</button>
+        </form>
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+        <div class="text-center">
+            <h6 class="h6">Email Sent</h6>
+            <p >Thank you for reaching out. I will get back to you as soon as I can.</p>
+            <a class="btn btn-link" asp-area="" asp-page="/Index">Go Home</a>
+        </div>
+    </div>
+  
+}
+
+
