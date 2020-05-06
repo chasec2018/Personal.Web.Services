@@ -1,0 +1,121 @@
+﻿@page
+@model ResumeService.Pages.ProjectsModel
+@{
+    ViewData["Title"] = "Projects";
+}
+
+    <div class="container-fluid">
+        <div class="text-center">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#csharp-project-page">C#</button>
+        </div>
+
+        <div class="modal fade" id="csharp-project-page" tabindex="-1" role="dialog" aria-labelledby="csharp-project-page-title" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="csharp-project-page-title">C# Code Behind Pages</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body bg-dark">
+                        <pre>
+                            <code class="text-light">
+using System;
+using System.IO;
+using ResumeServiceServices;
+using ResumeServiceModels;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Hosting;
+
+namespace ResumeService.Pages
+{
+    public class ProjectsModel : PageModel
+    {
+        public JsonAppDataService ProjectHistoryAppData;
+        private readonly IWebHostEnvironment WebHostEnvironment;
+
+        public ProjectsModel(JsonAppDataService JsonAppData, IWebHostEnvironment WHostEnvironment)
+        {
+            ProjectHistoryAppData = JsonAppData;
+            WebHostEnvironment = WHostEnvironment;
+        }
+
+        [BindProperty(SupportsGet = true)]
+        public List<'ProjectHistory> ProjHistory { get; set; }
+
+
+        public void OnGet()
+        {
+            string path = Path.Combine(WebHostEnvironment.ContentRootPath, "Data\\project-history.json");
+            ProjHistory = ProjectHistoryAppData.ReturnGenericJsonObject<'List<'ProjectHistory>>(path);
+
+        }
+    }
+}
+                            </code>    
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        @foreach (var project in Model.ProjHistory)
+        {
+            <div class="accordion m-2" id="ID-@project.AccordianID">
+                <div class="container-fluid">
+                    <div id="ID-@project.HeaderID">
+                        <h2 class="mb-0">
+                            <button class="btn btn-block btn-dark rounded border-0" type="button" data-toggle="collapse" data-target="#ID-@project.AccordianID-@project.HeaderID" aria-expanded="true" aria-controls="ID-@project.AccordianID-@project.HeaderID">
+                                @project.ProjectTitle
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="ID-@project.AccordianID-@project.HeaderID" class="collapse" aria-labelledby="ID-@project.HeaderID" data-parent="#ID-@project.AccordianID">
+                        <div class="row m-2">
+                            <div class="col">
+                                <h6 class="font-italic small m-0">Timeline: @project.Timeline</h6>
+                                <h6 class="font-italic small m-0">Company: @project.Company</h6>
+                                <h6 class="h6 mt-2 mb-2">Project Overview</h6>
+                                <p class="small">
+                                    @project.Overview
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row m-2">
+                            <div class="col-6">
+                                <h6 class="h6">Technologies Utilized</h6>
+                                <ul>
+                                    @foreach (var technology in project.Technology)
+                                    {
+                                        <li class="small">
+                                            @technology
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="h6">Languages Utilized</h6>
+                                <ul>
+                                    @foreach (var language in project.Languages)
+                                    {
+                                        <li class="small">
+                                            @language
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>

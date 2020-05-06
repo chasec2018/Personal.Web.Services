@@ -1,0 +1,119 @@
+﻿@page
+@model ResumeService.Pages.ExperienceModel
+@{
+    ViewData["Title"] = "Experience";
+    int i = 0;
+    string side = "";
+}
+
+    <div class="container-fluid">
+        <div class="text-center">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#csharp-experience-page">C#</button>
+        </div>
+
+        <div class="modal fade" id="csharp-experience-page" tabindex="-1" role="dialog" aria-labelledby="csharp-experience-page-title" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="csharp-experience-page-title">C# Code Behind Pages</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body bg-dark">
+                        <pre>
+                            <code class="text-light">
+using System;
+using System.IO;
+using ResumeServiceServices;
+using System.Collections.Generic;
+using ResumeServiceModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+
+namespace ResumeService.Pages
+{
+    public class ExperienceModel : PageModel
+    {
+
+        public JsonAppDataService ExperienceHistoryAppData;
+        private readonly IWebHostEnvironment WebHostEnvironment;
+
+        public ExperienceModel(JsonAppDataService JsonAppData, IWebHostEnvironment WHostEnvironment)
+        {
+            ExperienceHistoryAppData = JsonAppData;
+            WebHostEnvironment = WHostEnvironment;
+        }
+
+        [BindProperty(SupportsGet = true)]
+        public List<'ExperienceHistory> Experiences { get; set; }
+
+        public bool SetLeftSide(int Counter)
+        {
+            string[] rightValues = { "0", "2", "4", "6", "8" };
+            foreach(var value in rightValues)
+            {
+                if (Counter.ToString().Substring(Counter.ToString().Length - 1, 1).Equals(value))
+                    return true;
+            }
+            return false;
+        }
+
+        public void OnGet()
+        {
+            string path = Path.Combine(WebHostEnvironment.ContentRootPath, "Data", "experience-history.json");
+            Experiences = ExperienceHistoryAppData.ReturnGenericJsonObject<'List<'ExperienceHistory>>(path);
+        }
+    }
+}
+                            </code>    
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="container-fluid">
+    <h4 class="h4">Work Experience</h4>
+    <p>
+        Below is a timeline of my work experience over the past four years. Though if you read my intoduction I'm self-taught, so some of the job
+        requirements and description do not reflect my actual ability and understanding of software development. Please see the "Technical Abilities" section on the
+        Overview page for development expereince.
+    </p>
+    <div class="timeline">
+        @foreach (var experience in Model.Experiences)
+        {
+            if (Model.SetLeftSide(i))
+            {
+                side = "left";
+            }
+            else
+            {
+                side = "right";
+            }
+
+            <div class="timeline-container @side">
+                <div class="timeline-content">
+                    <h6 class="h6 m-0">@experience.StartMonth @experience.StartYear - @experience.EndMonth @experience.EndYear </h6>
+                    <p class="font-weight-bold m-0">@experience.Company</p>
+                    <p class="font-italic">@experience.Title, @experience.EmploymentType</p>
+                    <p class="small font-weight-bold mb-0">Job Requirements:</p>
+                    <ul>
+                        @foreach (var task in experience.Tasks)
+                        {
+                            <li class="small m-0">@task</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            i++;
+        }
+    </div>
+</div>
+

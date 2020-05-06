@@ -1,0 +1,378 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+    <div class="container-fluid">
+        <!--Razor Page Code Modals-->
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#csharp-index-page">C#</button>
+            </div>
+
+            <div class="modal fade" id="csharp-index-page" tabindex="-1" role="dialog" aria-labelledby="csharp-index-page-title" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="csharp-index-page-title">C# Code Behind Pages</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body bg-dark text-light">
+                            <pre>
+                                <code class="text-light">
+using System;
+using System.IO;
+using ResumeServiceModels;
+using ResumeServiceServices;
+using ResumeServiceProperties;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Hosting;
+using System.Threading.Tasks;
+
+namespace ResumeService.Pages
+{
+    public class IndexModel : PageModel
+    {
+        private readonly ILogger<'IndexModel> Logger;
+        private JsonAppDataService TechnicalAbilityAppData;
+        private readonly IWebHostEnvironment WebHostEnvironment;
+
+        public IndexModel(ILogger<'IndexModel> logger, JsonAppDataService JsonAppData, IWebHostEnvironment WHostEnvironment)
+        {
+            Logger = logger;
+            TechnicalAbilityAppData = JsonAppData;
+            WebHostEnvironment = WHostEnvironment;
+        }
+
+
+        [BindProperty(SupportsGet = true)]
+        public int YearsTraining
+        {
+            get
+            {
+                return DateTime.Now.Year - 2016;
+            }
+        }
+
+        [BindProperty(SupportsGet = true)]
+        public string ProfileImage { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public TechnicalAbility TechnicalAbilities { get; set; }
+        
+
+        public void OnGet() // No Need for Async Operations
+        {
+            // get path for Json File in Root Directory
+            string path = Path.Combine(WebHostEnvironment.ContentRootPath, "Data\\technical-ability.json");
+
+            // Convert Binary Images into Base 64 string 
+            string base64 = Convert.ToBase64String(Resources.ProfileImage);
+
+            // Set Profile with converted string
+            ProfileImage = String.Format("data:image/gif;base64,{0}", base64);
+
+            // Deserialize Json Data into Object and Set Property
+            TechnicalAbilities =TechnicalAbilityAppData.ReturnGenericJsonObject<'TechnicalAbility>(path);
+           
+        }
+    }
+}
+
+                                </code>    
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!--Profile Image-->
+            <div class="col-sm-3">
+                <img src=@Model.ProfileImage class="img-thumbnail m-1">
+                <a class="btn btn-sm btn-block btn-info m-1" asp-area="" asp-page="/Forms/Contact">Contact Me</a>
+            </div>
+
+            <div class="col-sm-9">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <h4 class="h4">Introduction</h4>
+                            <p>
+                                Hi There! My name is Chase Crawford. I am a self-taught software developer who specializes under the .NET Core Framework. Over the
+                                past @Model.YearsTraining years I have worked my way from learning basic coding techniques in VBA to developing and implementing
+                                enterprise architectural solutions using C# and VB. Most recently, I have been working under a microservices architecture utilizing
+                                technologies like Docker and Azure API Management to deploy services both hosted in the Cloud and On-Prem environments.
+                            </p>
+                            <p>
+                                My interest began when I was working for a company called Denso Corporation making reports through Microsoft Access and VBA while
+                                finishing up my degree at East Carolina University as an Operation & Supply Chain Major. Unfortunately I was too close to graduating
+                                when I discovered my strong interest in this field which prevented me from switching majors, though with a very strong desire to
+                                learn I began to dedicate all my remaining time learning the basics of what was Computer Science at ECU. I worked my way from learning
+                                basic syntax and understanding the different paradigms in languages as well as it’s interaction with environment it runs on to
+                                working with various frameworks and design patterns to better implement solutions with standardized coding practices.
+                            </p>
+                            <p>
+                                Though my time in the software field has been short I’ve been lucky enough to have resources and mentors available to test
+                                and train since I began learning. This has allowed me to work on real world situation and apply the knowledge as I go. If
+                                your interested in my ability, please feel free to contact me using the “Contact Me” button. This goes directly to me email
+                                and should be able to get back to you as soon as possible.
+                            </p>
+
+                            <h4 class="h4">Technical Abilities</h4>
+                            <p>
+                                @Model.TechnicalAbilities.Summary
+                            </p>
+                        </div>
+                    </div>
+                    
+
+                    <div class="row mb-3">
+                        <div class="col-sm-4">
+                            <div class="list-group shadow-lg" id="list-tab" role="tablist">
+                                @if (Model.TechnicalAbilities.ProgrammingLanguages.Count > 0)
+                                {
+                                    <a class="list-group-item list-group-item-action active" id="list-programming-list" data-toggle="list" href="#list-programming" role="tab" aria-controls="programming">Programming Languages</a>
+                                }
+                                @if (Model.TechnicalAbilities.ScriptingLanguages.Count > 0)
+                                {
+                                    <a class="list-group-item list-group-item-action text-sm-left" id="list-scripting-list" data-toggle="list" href="#list-scripting" role="tab" aria-controls="scripting">Scripting Languages</a>
+                                }
+                                @if (Model.TechnicalAbilities.DatabaseManagement.Count > 0)
+                                {
+                                    <a class="list-group-item list-group-item-action" id="list-databases-list" data-toggle="list" href="#list-databases" role="tab" aria-controls="databases">Database Management</a>
+                                }
+                                @if (Model.TechnicalAbilities.CloudServices.Count > 0)
+                                {
+                                    <a class="list-group-item list-group-item-action" id="list-cloud-services-list" data-toggle="list" href="#list-cloud-services" role="tab" aria-controls="cluod-services">Cloud Services</a>
+                                }
+                                @if (Model.TechnicalAbilities.ReportingTools.Count > 0)
+                                {
+                                    <a class="list-group-item list-group-item-action" id="list-reporting-list" data-toggle="list" href="#list-reporting" role="tab" aria-controls="cluodservices">Reporting</a>
+                                }
+                                @if (Model.TechnicalAbilities.EtlTools.Count > 0)
+                                {
+                                    <a class="list-group-item list-group-item-action" id="list-integration-list" data-toggle="list" href="#list-integration" role="tab" aria-controls="integration">ETL Tools</a>
+                                }
+                                @if (Model.TechnicalAbilities.Architectures.Count > 0)
+                                {
+                                    <a class="list-group-item list-group-item-action" id="list-architectures-list" data-toggle="list" href="#list-architectures" role="tab" aria-controls="architectures">Architecture</a>
+                                }
+                                @if (Model.TechnicalAbilities.DesignPatterns.Count > 0)
+                                {
+                                    <a class="list-group-item list-group-item-action" id="list-design-patterns-list" data-toggle="list" href="#list-design-patterns" role="tab" aria-controls="design-patterns">Design Patterns</a>
+                                }
+                                @if (Model.TechnicalAbilities.Networking.Count > 0)
+                                {
+                                    <a class="list-group-item list-group-item-action" id="list-networking-list" data-toggle="list" href="#list-networking" role="tab" aria-controls="networking">Networking</a>
+                                }
+                                @if (Model.TechnicalAbilities.Other.Count > 0)
+                                {
+                                    <a class="list-group-item list-group-item-action" id="list-other-list" data-toggle="list" href="#list-other" role="tab" aria-controls="other">Other</a>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="tab-content" id="nav-tabContent">
+                                @if (Model.TechnicalAbilities.ProgrammingLanguages.Count > 0)
+                                {
+                                    <div class="tab-pane fade show active" id="list-programming" role="tabpanel" aria-labelledby="list-programming-list">
+                                        @foreach (var language in Model.TechnicalAbilities.ProgrammingLanguages)
+                                        {
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <h6 class="h6">@language.Key</h6>
+                                                </div>
+                                                <div class="col-10">
+                                                    <p class="small">
+                                                        @language.Value
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                @if (Model.TechnicalAbilities.ScriptingLanguages.Count > 0)
+                                {
+                                    <div class="tab-pane fade" id="list-scripting" role="tabpanel" aria-labelledby="list-scripting-list">
+                                        @foreach (var scripting in Model.TechnicalAbilities.ScriptingLanguages)
+                                        {
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <h6 class="h6">@scripting.Key</h6>
+                                                </div>
+                                                <div class="col-10">
+                                                    <p class="small">
+                                                        @scripting.Value
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                @if (Model.TechnicalAbilities.DatabaseManagement.Count > 0)
+                                {
+                                    <div class="tab-pane fade" id="list-databases" role="tabpanel" aria-labelledby="list-databases-list">
+                                        @foreach (var dbms in Model.TechnicalAbilities.DatabaseManagement)
+                                        {
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <h6 class="h6">@dbms.Key</h6>
+                                                </div>
+                                                <div class="col-10">
+                                                    <p class="small">
+                                                        @dbms.Value
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                @if (Model.TechnicalAbilities.CloudServices.Count > 0)
+                                {
+                                    <div class="tab-pane fade" id="list-cloud-services" role="tabpanel" aria-labelledby="list-cloud-services-list">
+                                        @foreach (var CloudService in Model.TechnicalAbilities.CloudServices)
+                                        {
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <h6 class="h6">@CloudService.Key</h6>
+                                                </div>
+                                                <div class="col-10">
+                                                    <p class="small">
+                                                        @CloudService.Value
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                @if (Model.TechnicalAbilities.ReportingTools.Count > 0)
+                                {
+                                    <div class="tab-pane fade" id="list-reporting" role="tabpanel" aria-labelledby="list-reporting-list">
+                                        @foreach (var ReportingTool in Model.TechnicalAbilities.ReportingTools)
+                                        {
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <h6 class="h6">@ReportingTool.Key</h6>
+                                                </div>
+                                                <div class="col-10">
+                                                    <p class="small">
+                                                        @ReportingTool.Value
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                @if (Model.TechnicalAbilities.EtlTools.Count > 0)
+                                {
+                                    <div class="tab-pane fade" id="list-integration" role="tabpanel" aria-labelledby="list-integration-list">
+                                        @foreach (var IntegrationTool in Model.TechnicalAbilities.EtlTools)
+                                        {
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <h6 class="h6">@IntegrationTool.Key</h6>
+                                                </div>
+                                                <div class="col-10">
+                                                    <p class="small">
+                                                        @IntegrationTool.Value
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                @if (Model.TechnicalAbilities.Architectures.Count > 0)
+                                {
+                                    <div class="tab-pane fade" id="list-architectures" role="tabpanel" aria-labelledby="list-architectures-list">
+                                        @foreach (var Architecture in Model.TechnicalAbilities.Architectures)
+                                        {
+                                            <div class="row">
+                                                <div class="col col-sm-3">
+                                                    <h6 class="h6">@Architecture.Key</h6>
+                                                </div>
+                                                <div class="col col-sm-9">
+                                                    <p class="small">
+                                                        @Architecture.Value
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                @if (Model.TechnicalAbilities.DesignPatterns.Count > 0)
+                                {
+                                    <div class="tab-pane fade" id="list-design-patterns" role="tabpanel" aria-labelledby="list-design-patterns-list">
+                                        @foreach (var DesignPattern in Model.TechnicalAbilities.DesignPatterns)
+                                        {
+                                            <div class="row">
+                                                <div class="col col-2">
+                                                    <h6 class="h6">@DesignPattern.Key</h6>
+                                                </div>
+                                                <div class="col col-10">
+                                                    <p class="small">
+                                                        @DesignPattern.Value
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                @if (Model.TechnicalAbilities.Networking.Count > 0)
+                                {
+                                    <div class="tab-pane fade" id="list-networking" role="tabpanel" aria-labelledby="list-networking-list">
+                                        @foreach (var item in Model.TechnicalAbilities.Networking)
+                                        {
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <h6 class="h6">@item.Key</h6>
+                                                </div>
+                                                <div class="col-10">
+                                                    <p class="small">
+                                                        @item.Value
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                @if (Model.TechnicalAbilities.Other.Count > 0)
+                                {
+                                    <div class="tab-pane fade" id="list-other" role="tabpanel" aria-labelledby="list-other-list">
+                                        @foreach (var item in Model.TechnicalAbilities.Other)
+                                        {
+                                            <div class="row">
+                                                <div class="col col-sm-3">
+                                                    <h6 class="h6">@item.Key</h6>
+                                                </div>
+                                                <div class="col col-sm-9">
+                                                    <p class="small">
+                                                        @item.Value
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="h4">Questions I Like to Debate?</h4>
+                    <ul>
+                        <li>
+                            ORM (Object Relation Mapping) vs Database Project Implementation?
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>

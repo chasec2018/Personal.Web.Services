@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>@ViewData["Title"] - Chase Crawford </title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/custom.css" />
+
+
+    <script src="~/js/site.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+
+</head>
+<body>
+    <header class="border-bottom shadow-sm mb-4">
+        <div class="container-fluid">
+            <div class="row p-3">
+                <div class="col-sm-4 text-left">
+                    <h1 class="h1 m-0">Chase R. Crawford</h1>
+                    <h4 class="h4">Software Engineer</h4>
+                    <a class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="left" title="I'm an API Controller" asp-controller="document" asp-action="GetResumeDoc">Download Resume</a>
+                </div>
+
+                <div class="col-sm-4 text-center">
+                    <h1 class="display-4"> Welcome</h1>
+                    <h5 class="h5 m-0">Please have a look around!</h5>
+                </div>
+
+                <div class="col-sm-4 text-right">
+                    <p class="font-weight-bold m-0">East Carolina University</p>
+                    <p class="small m-0">Bachelor's Degree, Operations & Supply Chain Management</p>
+                    <p class="small text-muted m-0">2014-2019</p>
+                    <a asp-area="" asp-page="/Forms/Contact">Contact Me</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main role="main">
+        <div class="container-fluid">
+            <div class="row pb-4">
+                <div class="col-sm-2">
+                    <button class="btn btn-block btn-dark" type="button" data-toggle="collapse" data-target="#nav-dropdown" aria-expanded="false">Navigation</button>
+                    <div id="nav-dropdown" class="collapse show border-dark">
+                        <ul class="nav flex-column text-center">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/Index">Overview</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/Projects">Projects</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/Repository">Repository</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/Experience">Experience</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/AppInfo">Application Info</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-9 border-dark shadow-lg rounded-lg p-3">
+                    @RenderBody()
+                </div>
+
+                <div class="col-sm-1">
+
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="border-top footer text-muted">
+        <div class="container-fluid">
+            &copy; @DateTime.Now.Year - Chases R. Crawford - <a asp-area="" asp-page="/AppInfo">Application Info</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

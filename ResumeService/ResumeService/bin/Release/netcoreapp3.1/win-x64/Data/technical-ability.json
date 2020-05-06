@@ -1,0 +1,49 @@
+{
+  "Summary": "Below is a list of languages, tools, and technologies I have either utilized or been exposed to over the past few years which I either feel comfortable using or have a strong understanding. ",
+  "Programming Languages": {
+    "C#": "A majority of my development and implementation of large enterprise solutions have been through C#. I've utilized it for desktop apps, web apps, web services, database applications, and much more. Among the various languages I use C# is probabaly my strongest language.",
+    "VB": "Strong understanding and utilization of VB through my experience with desktop app development such as UWP and Windows Forms. It's been a few years since I've touched VB since I've migrated over to C#, though still have confidence in my ability with VB. This was my originial to go to language due to my start in programming through VBA.",
+    "Python": "Most of my use of Python experience has been for analytical modeling utilizing packages such as Pandas, NumPy, SciPy, Matplotlib, etc. I've also used it for automation and unit testing through frameworks like Selenium, and have helped deploy a analytical scripting environment within Tableau Server using TabPy."
+  },
+  "Scripting Languages": {
+    "PowerShell": "When it comes to a general-purpose automation language PowerShell is my number one choice. I'm a huge PowerShell nerd and I can't think of many things you can't do with PowerShell. From server configuration to data server migrations I've done it. Within an Azure Cloud environment, it's great for autonomous redeployment of services especially templated environments which is constantly redeployed.",
+    "JavaScript": "I have a basic utilization and understanding of the language when compared to past peers, but do not consider myself to be a JavaScript Developer. I tend to have a strong reliance on the Bootstrap Framework and JQuery, and only rely on JS when functionality falls outside of Bootstrap Framework.",
+    "ASP": "Obvisouly with Web Development in ASP.NET Core Framework the ASP aspect of web development is a must in order to implement a successful web application, so I would consider my ability to be strong even though it is a very easy language to learn. I feel the difficulty in ASP is the application of design patterns with Web Development which I've tend to focus on and understand.",
+    "VBScript": "(I never use this, actually, no one should ever use this. Very unstable) Though I have used it, unfortunetly."
+  },
+  "Database Management": {
+    "MS SQL": " I am very familiar with Microsoft SQL Server and have strong comprehension and utilization of the software. I have both deployed and maintained various instances of SQL Server installation as well as worked with Integration Services Catalog, Analysis Servies, and both Power BI and SSRS Report Servers.",
+    "MySQL": "My understanding of MySQL software is basic and does not extend beyond MySQL Workbench. Have a good understaning of syntax differences between SQL Server & MySQL.",
+    "MongoDB": "A good base-line understanding of delployment and utilization. Though I have only ever used MongoDB for personal projects such as video storage in GridFs or document based collections. No experience in large enterprise implementation.(Though would love the opportunity)"
+  },
+  "Cloud Services": {
+    "Azure": "Azure is the only cloud service I utilize, though I have a strong understanding of the various resources available as well as scripting out deployment processes in Azure PowerShell. Most of my training and practice has been through the available services and environments offered by Azure, so have a great understanding of deployment process, maintenance, and cost. I also know how to connect many cloud services to on-premise resources on that persist the same security policy from you on-premise environment to your cloud services"
+  },
+  "Reporting Tools": {
+    "SSRS": "Have a strong understanding of SSRS reports and the use of each ToolBox Item with the report. Also have experience deploying and manageing SSRS Report Server.",
+    "Power BI": "Extensive use with analytical modeling and visualization. Applied and utilized the various connectors availale within Power BI which range form unstructred data sources such as MongoDB to structered data sets like SQL Server.",
+    "Tableau": "Basic exposure to Tableau and it's functionality. Can build basic Reports, Dashboards, and Stories. Also have used Tableau Prep and initialized TabPy on Tableau Server for Python Scripting Integration."
+  },
+  "ETL Tools": {
+    "SSIS": "Have a good understanding of the array of ToolBox items within SSIS. I know how to easily create and deploy packages as well as interact with unstructured data using Scritped Tasks."
+  },
+  "Architectures": {
+    "N'Tier'": "",
+    "Microservices": "Within my previous company our Microservice Strategy Stack consisted of various technologies. Our Gateway was maintained in Azure API Management and deployment was a mixtures of Azure Web Services and containereized serivces within Dockers Clusters which were deployed through Jenkins using the pre-existing piplines.",
+    "MVC": "Have a good understnading of the MVC Design Patterns, though depends on the influence new architectural patterns have ",
+    "MVVM": "When it comes to UI development that doesn't require many server views I tend to fall towards this architectural pattern as it is easy to development and implement since you do not need to seperate the action from the controller when compared to MVC."
+  },
+  "Design Patterns": {
+    "Singleton": "I tend to use this design pattern for restricting connection to Data Servers, or many other services to prevent the constant connect and reconnect within my code.",
+    "Dependency Injection": "I have used the concept of Dependency Inject in many project I've develped as well as even made my own IoC (Inversion of Controll) Container."
+  },
+  "Networking": {
+    "IIS": "Fore personal develpement I've both deployed and configured IIS Managament. I've create sites under difference application pools which utilize Windows Authentication through AD Security Groups and Slef-Signed Certificates.",
+    "Active Directory": "A good understanding of how to deploy domain controllers as parts of the AD Forest, manage AD Object such as Users and Security Groups, and setup hybrid synchronization with on-premisis AD to Azure AD."
+  },
+  "Other": {
+    "IDEs": "Vidusl Studios, PyCharm",
+    "Node.js": "",
+    "Respositories": "GitHub, BitBucket, Azure DevOps"
+  }
+}
