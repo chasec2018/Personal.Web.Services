@@ -71,7 +71,7 @@ namespace ResumeService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to reaqovmfqevrkmls.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string SmtpDeliveryPassword {
             get {
@@ -80,7 +80,7 @@ namespace ResumeService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to smtp.gmail.com.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string SmtpDeliveryServer {
             get {
@@ -89,7 +89,7 @@ namespace ResumeService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to chasecrawford2018@gmail.com.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string SmtpDeliveryUsername {
             get {

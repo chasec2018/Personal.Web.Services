@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "P:\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj": {}
+    "C:\\Users\\chase\\source\\Repos (Project)\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj": {}
   },
   "projects": {
-    "P:\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj": {
+    "C:\\Users\\chase\\source\\Repos (Project)\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "P:\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj",
+        "projectUniqueName": "C:\\Users\\chase\\source\\Repos (Project)\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj",
         "projectName": "ResumeService",
-        "projectPath": "P:\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj",
+        "projectPath": "C:\\Users\\chase\\source\\Repos (Project)\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj",
         "packagesPath": "C:\\Users\\chase\\.nuget\\packages\\",
-        "outputPath": "P:\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\obj\\",
+        "outputPath": "C:\\Users\\chase\\source\\Repos (Project)\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
