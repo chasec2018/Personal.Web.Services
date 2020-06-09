@@ -13,7 +13,6 @@ namespace ResumeService.Models
 
         [JsonPropertyName("Project Title")]
         public string ProjectTitle { get; set; }
-
         public string Timeline { get; set; }
         public string Company { get; set; }
         public string Overview { get; set; }

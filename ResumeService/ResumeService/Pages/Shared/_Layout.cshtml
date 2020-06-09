@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using ResumeService.Areas.Identity.Data
+
+@inject SignInManager<ResumeServiceUsers> SignInManager
+@inject UserManager<ResumeServiceUsers> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -14,7 +20,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
 
-</head>
+</head> 
 <body>
     <header class="border-bottom shadow-sm mb-4">
         <div class="container-fluid">
@@ -33,7 +39,8 @@
 
                 <div class="col-sm-4 text-right">
                     <p class="font-weight-bold m-0">East Carolina University</p>
-                    <p class="small m-0">Bachelor's Degree, Operations & Supply Chain Management</p>
+                    <p class="small m-0">Bachelor of Science in Business Administration,</p>
+                    <p class="small m-0">Operations & Supply Chain Management</p>
                     <p class="small text-muted m-0">2014-2019</p>
                     <a asp-area="" asp-page="/Forms/Contact">Contact Me</a>
                 </div>
@@ -47,7 +54,7 @@
                 <div class="col-sm-2">
                     <button class="btn btn-block btn-dark" type="button" data-toggle="collapse" data-target="#nav-dropdown" aria-expanded="false">Navigation</button>
                     <div id="nav-dropdown" class="collapse show border-dark">
-                        <ul class="nav flex-column text-center">
+                        <ul class="nav flex-column text-center small ">
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-page="/Index">Overview</a>
                             </li>
@@ -60,11 +67,33 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-page="/Experience">Experience</a>
                             </li>
+
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                
+                                if (await UserManager.IsInRoleAsync(await @UserManager.GetUserAsync(User), "Guest") || await UserManager.IsInRoleAsync(await @UserManager.GetUserAsync(User), "Administrator"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-page="/Demos">Code Demos</a>
+                                    </li>
+                                }
+                            }
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/AppInfo">Application Info</a>
+                                <a class="nav-link" asp-area="" asp-page="/AppInfo">App Info</a>
                             </li>
-                        </ul>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                if (await UserManager.IsInRoleAsync(await @UserManager.GetUserAsync(User), "Administrator"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-page="/AppData">App Management</a>
+                                    </li>
+                                }
+                            }
+                        </ul>       
                     </div>
+
+                    <partial name="_LoginPartial" />
                 </div>
                 <div class="col-sm-9 border-dark shadow-lg rounded-lg p-3">
                     @RenderBody()

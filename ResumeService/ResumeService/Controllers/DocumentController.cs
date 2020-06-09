@@ -30,13 +30,13 @@ namespace ResumeService.Controllers
         {
             try
             {
-                string doc = Path.Combine(WebHostEnvironment.WebRootPath, "docs\\Resume.docx");
+                string doc = Path.Combine(WebHostEnvironment.WebRootPath, "docs\\Resume.pdf");
 
                 if (System.IO.File.Exists(doc))
                 {
                     HttpContext.Response.Clear();
-                    HttpContext.Response.ContentType = "application/msword";
-                    HttpContext.Response.Headers.Add("Content-Disposition", "attachment; filename=Resume.docx");
+                    HttpContext.Response.ContentType = "application/pdf";
+                    HttpContext.Response.Headers.Add("Content-Disposition", "attachment; filename=Resume.pdf");
                     await HttpContext.Response.SendFileAsync(doc);
                 }
             }

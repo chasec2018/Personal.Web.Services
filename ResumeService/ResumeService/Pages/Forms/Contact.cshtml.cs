@@ -9,68 +9,70 @@ using ResumeService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using ResumeService.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity;
+using ResumeService.Areas.Identity.Data;
 
 namespace ResumeService.Pages.Forms
 {
     public class ContactModel : PageModel
     {
         private readonly ILogger<ContactModel> Logger;
+        private readonly EmailHandler Emailer;
+        private readonly UserManager<ResumeServiceUsers> UserManager;
+        private readonly SignInManager<ResumeServiceUsers> SignInManager;
 
-        public ContactModel(ILogger<ContactModel> _Logger)
+        public ContactModel(ILogger<ContactModel> _Logger, EmailHandler _EmailHandler, UserManager<ResumeServiceUsers> _UserManager, SignInManager<ResumeServiceUsers> _SignInManager)
         {
             Logger = _Logger;
-            EmailSent = false;
+            Emailer = _EmailHandler;
+            UserManager = _UserManager;
+            SignInManager = _SignInManager;
         }
 
         [BindProperty]
-        public bool EmailSent { get; set; }
+        public bool EmailSent { get; set; } = false;
 
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public EmailModel Email { get; set; }
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            
+            if (SignInManager.IsSignedIn(User))
+            {
+                ResumeServiceUsers user = await UserManager.GetUserAsync(User);
+
+                Email.FirstName = user.FirstName;
+                Email.LastName = user.LastName;
+                Email.PhoneNumber = user.PhoneNumber;
+                Email.Email = user.Email;
+                Email.Title = user.JobTitle;
+                Email.Affiliation = user.Company;
+            }
         }
 
-        public async Task<ActionResult> OnPost()
-        { 
-            using (SmtpClient smtp = new SmtpClient(Resources.SmtpDeliveryServer,587))
+        public async Task<ActionResult> OnPostAsync()
+        {
+            Emailer.MessageSubject = $"Recruitment Enquiry: {Email.FirstName} {Email.LastName}";
+            Emailer.Sender = Email.Email;
+            Emailer.MessageBody = $"Requester: {Email.FirstName} {Email.LastName} <br /> " +
+                                  $"Affiliation: {Email.Affiliation ?? "NA"} <br /> " +
+                                  $"Job Title: {Email.Title ?? "NA"} <br /> " +
+                                  $"Contact Email: {Email.Email} <br /> " +
+                                  $"Contact Phone: {Email.PhoneNumber} <br /> " +
+                                  $"Subject Matter:{Email.Subject} <br /> <br /> " +
+                                  $"{Email.Message}";
+
+            Emailer.EnableSsl = true;
+            Emailer.IsHtml = true;
+
+            if (await Emailer.Send())
+                EmailSent = true;
+            else if(Emailer.IsException(out Exception error))
             {
-                try
-                {
-                    smtp.Credentials = new NetworkCredential(Resources.SmtpDeliveryUsername,Resources.SmtpDeliveryPassword);
-                    smtp.EnableSsl = true;
-
-                    if (Email.Affiliation == null)
-                        Email.Affiliation = "NA";
-
-                    if (Email.Title == null)
-                        Email.Title = "NA";
-
-                    MailMessage message = new MailMessage()
-                    {
-                        Body = $"Requester: {Email.FirstName} {Email.LastName} <br /> " +
-                               $"Affiliation: {Email.Affiliation} <br /> " +
-                               $"Job Title: {Email.Title} <br /> " +
-                               $"Contact Email: {Email.Email} <br /> " +
-                               $"Contact Phone: {Email.PhoneNumber} <br /> " +
-                               $"Subject Matter:{Email.Subject} <br /> <br /> " +
-                               $"{Email.Message}" ,
-                        Subject = $"Recruitment Enquiry: {Email.FirstName} {Email.LastName}",
-                        From = (new MailAddress(Email.Email))
-                    };
-                    message.IsBodyHtml = true;
-                    message.To.Add(Resources.SmtpDeliveryUsername);
-                    await smtp.SendMailAsync(message).ConfigureAwait(true);
-                }
-                catch (Exception exception)
-                {
-                    Logger.LogError("EMail POST Error", exception);
-                    return RedirectToPage("/Error");
-                }
+                Logger.LogError(error.Message, error);
             }
-            EmailSent = true;
             return Page();
         }
     }

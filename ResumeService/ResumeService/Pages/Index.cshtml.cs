@@ -26,15 +26,6 @@ namespace ResumeService.Pages
 
 
         [BindProperty(SupportsGet = true)]
-        public int YearsTraining
-        {
-            get
-            {
-                return DateTime.Now.Year - 2016;
-            }
-        }
-
-        [BindProperty(SupportsGet = true)]
         public string ProfileImage { get; set; }
 
         [BindProperty(SupportsGet = true)]
@@ -43,17 +34,12 @@ namespace ResumeService.Pages
 
         public void OnGet() // No Need for Async Operations
         {
-            // get path for Json File in Root Directory
-            string path = Path.Combine(WebHostEnvironment.ContentRootPath, "Data\\technical-ability.json");
+            // Process 01 : Set Profile with converted string
+            ProfileImage = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Resources.ProfileImage));
 
-            // Convert Binary Images into Base 64 string
-            string base64 = Convert.ToBase64String(Resources.ProfileImage);
-
-            // Set Profile with converted string
-            ProfileImage = String.Format("data:image/gif;base64,{0}", base64);
-
-            // Deserialize Json Data into Object and Set Property
-            TechnicalAbilities =TechnicalAbilityAppData.ReturnGenericJsonObject<TechnicalAbility>(path);
+            // Process 02 : Deserialize Json Data into Object and Set Property
+            TechnicalAbilities =TechnicalAbilityAppData.ReturnGenericJsonObject<TechnicalAbility>(
+                Path.Combine(WebHostEnvironment.ContentRootPath, "Data\\technical-ability.json"));
            
         }
     }

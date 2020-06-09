@@ -27,7 +27,13 @@ namespace ResumeService.Services
                 throw new FileNotFoundException();
             try
             {
-                return JsonSerializer.Deserialize<T>(File.ReadAllText(DataFile));
+                using (FileStream Stream = new FileStream(DataFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    using (StreamReader Reader = new StreamReader(Stream))
+                    {
+                        return JsonSerializer.Deserialize<T>(Reader.ReadToEnd());
+                    }
+                }
             }
             catch(Exception exception)
             {
@@ -71,29 +77,36 @@ namespace ResumeService.Services
 
         public void EditArrayJsonObject<T>(string DataFile, T OldDataObject, T NewDataObject)
         {
-            List<T> JsonObject = JsonSerializer.Deserialize<List<T>>(File.ReadAllText(DataFile));
-            T item;
-
-            try
+            using (FileStream Stream = new FileStream(DataFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                for (int i = 0; i < JsonObject.Count; i++)
+                using (StreamReader Reader = new StreamReader(Stream))
                 {
-                    if (JsonObject[i].Equals(OldDataObject))
+                    List<T> JsonObject = JsonSerializer.Deserialize<List<T>>(Reader.ReadToEnd());
+
+                    T item;
+
+                    try
                     {
-                        item = JsonObject[i];
-                        JsonObject.Remove(item);
-                        break;
+                        for (int i = 0; i < JsonObject.Count; i++)
+                        {
+                            if (JsonObject[i].Equals(OldDataObject))
+                            {
+                                item = JsonObject[i];
+                                JsonObject.Remove(item);
+                                break;
+                            }
+                        }
+
+                        JsonObject.Add(NewDataObject);
+                        File.WriteAllText(DataFile, JsonSerializer.Serialize<List<T>>(JsonObject));
+
+                    }
+                    catch (Exception exception)
+                    {
+                        throw exception;
+
                     }
                 }
-
-                JsonObject.Add(NewDataObject);
-                File.WriteAllText(DataFile, JsonSerializer.Serialize<List<T>>(JsonObject));
-
-            }
-            catch (Exception exception)
-            {
-                throw exception;
-
             }
         }
     }

@@ -28,7 +28,6 @@ namespace ResumeService.Pages
         {
             string path = Path.Combine(WebHostEnvironment.ContentRootPath, "Data\\project-history.json");
             ProjHistory = ProjectHistoryAppData.ReturnGenericJsonObject<List<ProjectHistory>>(path);
-
         }
     }
 }

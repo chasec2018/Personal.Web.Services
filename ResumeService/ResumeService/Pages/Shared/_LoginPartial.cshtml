@@ -1,0 +1,33 @@
+﻿@using System;
+@using Microsoft.AspNetCore.Identity
+@using ResumeService.Areas.Identity.Data
+
+@inject SignInManager<ResumeServiceUsers> SignInManager
+@inject UserManager<ResumeServiceUsers> UserManager
+
+    <ul class="navbar-nav text-center border-dark rounded shadow bg-dark mt-2 pt-1">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            ResumeServiceUsers Name = await UserManager.GetUserAsync(User);
+
+            <li>
+                <small class="text-light">Hello @Name.FirstName @Name.LastName !</small>
+            </li>
+            <li class="nav-item">
+                <a id="manage" class="nav-link text-danger small" asp-area="Identity" asp-page="/Account/Manage/Index">Manage Account</a>
+            </li>
+            <li class="nav-item">
+                
+                <a id="logout" class="nav-link text-danger small" asp-controller="account" asp-action="Logout" >Logout</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-danger small" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-danger small" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            </li>
+        }
+    </ul>

@@ -95,7 +95,6 @@ namespace ResumeService.Pages
         </div>
 
         <div class="row">
-            <!--Profile Image-->
             <div class="col-sm-3">
                 <img src=@Model.ProfileImage class="img-thumbnail m-1">
                 <a class="btn btn-sm btn-block btn-info m-1" asp-area="" asp-page="/Forms/Contact">Contact Me</a>
@@ -108,7 +107,7 @@ namespace ResumeService.Pages
                             <h4 class="h4">Introduction</h4>
                             <p>
                                 Hi There! My name is Chase Crawford. I am a self-taught software developer who specializes under the .NET Core Framework. Over the
-                                past @Model.YearsTraining years I have worked my way from learning basic coding techniques in VBA to developing and implementing
+                                past @Math.Round(@DateTime.Now.Subtract(new DateTime(2016,9,1)).TotalDays/365,0) years I have worked my way from learning basic coding techniques in VBA to developing and implementing
                                 enterprise architectural solutions using C# and VB. Most recently, I have been working under a microservices architecture utilizing
                                 technologies like Docker and Azure API Management to deploy services both hosted in the Cloud and On-Prem environments.
                             </p>
@@ -117,13 +116,13 @@ namespace ResumeService.Pages
                                 finishing up my degree at East Carolina University as an Operation & Supply Chain Major. Unfortunately I was too close to graduating
                                 when I discovered my strong interest in this field which prevented me from switching majors, though with a very strong desire to
                                 learn I began to dedicate all my remaining time learning the basics of what was Computer Science at ECU. I worked my way from learning
-                                basic syntax and understanding the different paradigms in languages as well as it’s interaction with environment it runs on to
+                                basic syntax and understanding the different paradigms in languages as well as it’s interaction with the various environments it runs on to
                                 working with various frameworks and design patterns to better implement solutions with standardized coding practices.
                             </p>
                             <p>
                                 Though my time in the software field has been short I’ve been lucky enough to have resources and mentors available to test
                                 and train since I began learning. This has allowed me to work on real world situation and apply the knowledge as I go. If
-                                your interested in my ability, please feel free to contact me using the “Contact Me” button. This goes directly to me email
+                                you're interested in my ability, please feel free to contact me using the “Contact Me” button. This goes directly to me email
                                 and should be able to get back to you as soon as possible.
                             </p>
 

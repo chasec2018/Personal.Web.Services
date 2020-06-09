@@ -1,0 +1,31 @@
+﻿@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Register Confirmation";
+}
+
+
+@if (Model.ErrorOccurred)
+{
+    <div class="container-fluid">
+        <h4 class="h4">@ViewData["Title"] : Error</h4>
+        <p class="text-danger">
+            Was unable to send email confirmation. Please try again.
+        </p>
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+        <h4 class="h4">@ViewData["Title"]</h4>
+        <p>
+            Please check you email address : @Model.Email and hit the confirm link.
+        </p>
+
+        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" class="btn btn-sm btn-primary">Resend email confirmation</a>
+    </div>
+}
+
+
+
+

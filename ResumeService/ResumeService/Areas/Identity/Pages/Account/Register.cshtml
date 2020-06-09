@@ -1,0 +1,68 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+<div class="container-fluid">
+    <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <h4 class="h4 ml-2">@ViewData["Title"]</h4>
+        @if (ModelState.ErrorCount > 0)
+        {
+            @foreach (var State in ModelState.Values)
+            {
+                foreach (var Error in State.Errors)
+                {
+                    <span class="text-danger">@Error.ErrorMessage</span>
+                }
+            }
+        }
+        <hr />
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control m-2" placeholder="First Name" tabindex="1" asp-for="Input.FirstName" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+
+                <input type="text" class="form-control m-2" placeholder="Last Name" tabindex="2" asp-for="Input.LastName" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+
+                <input asp-for="Input.Company" class="form-control m-2" placeholder="Company Affiliation (Optional)" tabindex="3" />
+                <input asp-for="Input.JobTitle" class="form-control m-2" placeholder="Job Title (Optional)" tabindex="4" />
+
+                <input asp-for="Input.Password" class="form-control m-2" placeholder="Password" tabindex="9" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+                <input asp-for="Input.ConfirmPassword" class="form-control m-2" placeholder="Confirm Password" tabindex="10" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+                <h6 class="h6 m-0 pl-2">Use</h6>
+                <p class="small m-0 pl-2">
+                    Register your information to access additional features of this web application. There are features currently
+                    hidden and will not be accessible until you are a valid user.
+                </p>
+            </div>
+
+            <div class="col">
+                <input type="text" class="form-control m-2" placeholder="Username" tabindex="5" asp-for="Input.Username" />
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
+
+                <input type="text" class="form-control m-2" placeholder="Email Address" tabindex="6" asp-for="Input.Email" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+
+                <input type="text" class="form-control m-2" placeholder="Phone Number (Optional)" tabindex="7" asp-for="Input.PhoneNumber" />
+
+                <input type="date" class="form-control m-2" placeholder="Birthday" tabindex="8" asp-for="Input.Birthdate" />
+                <span asp-validation-for="Input.Birthdate" class="text-danger"></span>
+
+
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary m-2" tabindex="11">Register</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
