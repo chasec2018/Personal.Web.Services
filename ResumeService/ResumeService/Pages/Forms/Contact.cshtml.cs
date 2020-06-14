@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using ResumeService.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
-using ResumeService.Areas.Identity.Data;
+using ResumeService.Areas.Identity.EntityModels;
 
 namespace ResumeService.Pages.Forms
 {

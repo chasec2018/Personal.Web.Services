@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "restored": true,
+      "restoreTime": "2020-06-11T02:09:46.7885188Z"
+    }
+  },
+  "parameters": {
+    "resourceGroup": {
+      "Type": "resourceGroup",
+      "Value": "assimalign-us-east-gp-a"
+    },
+    "subscriptionId": {
+      "Type": "subscription",
+      "Value": "3c1b7889-444a-48a3-b2b4-275e2ff15584"
+    }
+  }
+}

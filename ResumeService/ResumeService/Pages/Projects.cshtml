@@ -20,43 +20,10 @@
                         </button>
                     </div>
 
-                    <div class="modal-body bg-dark">
+                    <div class="modal-body">
                         <pre>
-                            <code class="text-light">
-'using System;
-using System.IO;
-using ResumeServiceServices;
-using ResumeServiceModels;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Hosting;
-
-namespace ResumeService.Pages
-{
-    public class ProjectsModel : PageModel
-    {
-        public JsonAppDataService ProjectHistoryAppData;
-        private readonly IWebHostEnvironment WebHostEnvironment;
-
-        public ProjectsModel(JsonAppDataService JsonAppData, IWebHostEnvironment WHostEnvironment)
-        {
-            ProjectHistoryAppData = JsonAppData;
-            WebHostEnvironment = WHostEnvironment;
-        }
-
-        [BindProperty(SupportsGet = true)]
-        public List<'ProjectHistory> ProjHistory { get; set; }
-
-
-        public void OnGet()
-        {
-            string path = Path.Combine(WebHostEnvironment.ContentRootPath, "Data\\project-history.json");
-            ProjHistory = ProjectHistoryAppData.ReturnGenericJsonObject<'List<'ProjectHistory>>(path);
-
-        }
-    }
-}'
+                            <code class="lang-csharp">
+                                @Model.CSharpCode
                             </code>    
                         </pre>
                     </div>

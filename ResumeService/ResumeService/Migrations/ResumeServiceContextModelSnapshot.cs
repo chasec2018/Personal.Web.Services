@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ResumeService.Data;
+using ResumeService.Areas.Identity.Data;
 
 namespace ResumeService.Migrations
 {
@@ -15,6 +15,7 @@ namespace ResumeService.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("Access")
                 .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -120,7 +121,7 @@ namespace ResumeService.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ResumeService.Areas.Identity.Data.ResumeServiceRoles", b =>
+            modelBuilder.Entity("ResumeService.Areas.Identity.EntityModels.ResumeServiceRoles", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -151,7 +152,7 @@ namespace ResumeService.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("ResumeService.Areas.Identity.Data.ResumeServiceUsers", b =>
+            modelBuilder.Entity("ResumeService.Areas.Identity.EntityModels.ResumeServiceUsers", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -232,9 +233,50 @@ namespace ResumeService.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("ResumeService.Areas.Identity.EntityModels.ResumeServiceVisitors", b =>
+                {
+                    b.Property<int>("TransactionID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClientCertificateIssuer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientCertificateSubject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientCertificateThumbprint")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("IdentityAuthenticated")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("IdentityAuthenticationType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdentityName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RemoteIP")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RemotePort")
+                        .HasColumnType("int");
+
+                    b.HasKey("TransactionID");
+
+                    b.ToTable("ResumeServiceVisitors","Insight");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("ResumeService.Areas.Identity.Data.ResumeServiceRoles", null)
+                    b.HasOne("ResumeService.Areas.Identity.EntityModels.ResumeServiceRoles", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -243,7 +285,7 @@ namespace ResumeService.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("ResumeService.Areas.Identity.Data.ResumeServiceUsers", null)
+                    b.HasOne("ResumeService.Areas.Identity.EntityModels.ResumeServiceUsers", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -252,7 +294,7 @@ namespace ResumeService.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("ResumeService.Areas.Identity.Data.ResumeServiceUsers", null)
+                    b.HasOne("ResumeService.Areas.Identity.EntityModels.ResumeServiceUsers", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -261,13 +303,13 @@ namespace ResumeService.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("ResumeService.Areas.Identity.Data.ResumeServiceRoles", null)
+                    b.HasOne("ResumeService.Areas.Identity.EntityModels.ResumeServiceRoles", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ResumeService.Areas.Identity.Data.ResumeServiceUsers", null)
+                    b.HasOne("ResumeService.Areas.Identity.EntityModels.ResumeServiceUsers", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -276,7 +318,7 @@ namespace ResumeService.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("ResumeService.Areas.Identity.Data.ResumeServiceUsers", null)
+                    b.HasOne("ResumeService.Areas.Identity.EntityModels.ResumeServiceUsers", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

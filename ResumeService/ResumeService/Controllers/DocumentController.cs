@@ -19,10 +19,10 @@ namespace ResumeService.Controllers
         private readonly IWebHostEnvironment WebHostEnvironment;
         private readonly ILogger<DocumentController> Logger;
 
-        public DocumentController(IWebHostEnvironment _WebHostEnvironment, ILogger<DocumentController> _Logger)
+        public DocumentController(IWebHostEnvironment webHostEnvironment, ILogger<DocumentController> logger)
         {
-            WebHostEnvironment = _WebHostEnvironment;
-            Logger = _Logger;
+            WebHostEnvironment = webHostEnvironment;
+            Logger = logger;
         }
 
         [HttpGet]

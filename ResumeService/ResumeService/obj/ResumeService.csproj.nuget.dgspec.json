@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\chase\\source\\Repos (Project)\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj": {}
+    "C:\\Users\\chase\\source\\repos\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\chase\\source\\Repos (Project)\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj": {
+    "C:\\Users\\chase\\source\\repos\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chase\\source\\Repos (Project)\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj",
+        "projectUniqueName": "C:\\Users\\chase\\source\\repos\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj",
         "projectName": "ResumeService",
-        "projectPath": "C:\\Users\\chase\\source\\Repos (Project)\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj",
+        "projectPath": "C:\\Users\\chase\\source\\repos\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\ResumeService.csproj",
         "packagesPath": "C:\\Users\\chase\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chase\\source\\Repos (Project)\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\obj\\",
+        "outputPath": "C:\\Users\\chase\\source\\repos\\Personal\\Personal.Web.Services\\ResumeService\\ResumeService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -75,6 +75,10 @@
               "target": "Package",
               "version": "[3.1.4, )"
             },
+            "Microsoft.Extensions.Configuration.AzureKeyVault": {
+              "target": "Package",
+              "version": "[3.1.5, )"
+            },
             "Microsoft.VisualStudio.Web.BrowserLink": {
               "target": "Package",
               "version": "[2.2.0, )"
@@ -102,7 +106,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

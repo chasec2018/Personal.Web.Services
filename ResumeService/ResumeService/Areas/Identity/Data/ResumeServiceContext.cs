@@ -1,26 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using ResumeService.Areas.Identity;
-using ResumeService.Areas.Identity.Data;
+using ResumeService.Areas.Identity.EntityModels;
 
-namespace ResumeService.Data
+namespace ResumeService.Areas.Identity.Data
 {
     public class ResumeServiceContext : IdentityDbContext<ResumeServiceUsers, ResumeServiceRoles, Guid>
     {
 
         public ResumeServiceContext(DbContextOptions<ResumeServiceContext> options) : base(options)
         {
-
+            
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+
+        public DbSet<ResumeServiceVisitors> ResumeServiceUniqueTraffic { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder Builder)
         {
-            base.OnModelCreating(builder);
+            Builder.HasDefaultSchema("Access");
+
+            Builder.Entity<ResumeServiceVisitors>()
+                .Property(p => p.CreationDate)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+
+            base.OnModelCreating(Builder);
 
         }
     }

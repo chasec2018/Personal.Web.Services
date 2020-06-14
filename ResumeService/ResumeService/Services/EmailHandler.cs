@@ -4,12 +4,19 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using ResumeService.Properties;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace ResumeService.Services
 {
     public class EmailHandler : IEmailSender
     {
         private Exception exception;
+        private readonly KeyVaultHandler VaultHandler;
+
+        public EmailHandler(KeyVaultHandler secretVaultHandler)
+        {
+            VaultHandler = secretVaultHandler;
+        }
 
         public string Sender { get; set; }
         public string MessageBody { get; set; }
@@ -18,13 +25,14 @@ namespace ResumeService.Services
         public bool IsHtml { get; set; } = false;
 
 
+       
         public async Task<bool> Send()
         {
-            using (SmtpClient smtp = new SmtpClient(Resources.SmtpDeliveryServer, 587))
+            using (SmtpClient smtp = new SmtpClient(VaultHandler.Secrets.SmtpDeliveryServer, 587))
             {
                 try
                 {
-                    smtp.Credentials = new NetworkCredential(Resources.SmtpDeliveryUsername, Resources.SmtpDeliveryPassword);
+                    smtp.Credentials = new NetworkCredential(VaultHandler.Secrets.SmtpDeliveryUsername, VaultHandler.Secrets.SmtpDeliveryPassword);
                     smtp.EnableSsl = EnableSsl;
 
                     MailMessage message = new MailMessage()
@@ -35,7 +43,7 @@ namespace ResumeService.Services
                     };
 
                     message.IsBodyHtml = IsHtml;
-                    message.To.Add(Resources.SmtpDeliveryUsername);
+                    message.To.Add(VaultHandler.Secrets.SmtpDeliveryUsername);
                     await smtp.SendMailAsync(message).ConfigureAwait(true);
 
                     return true;
@@ -64,18 +72,18 @@ namespace ResumeService.Services
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            using (SmtpClient smtp = new SmtpClient(Resources.SmtpDeliveryServer, 587))
+            using (SmtpClient smtp = new SmtpClient(VaultHandler.Secrets.SmtpDeliveryServer, 587))
             {
                 try
                 {
-                    smtp.Credentials = new NetworkCredential(Resources.SmtpDeliveryUsername, Resources.SmtpDeliveryPassword);
+                    smtp.Credentials = new NetworkCredential(VaultHandler.Secrets.SmtpDeliveryUsername, VaultHandler.Secrets.SmtpDeliveryPassword);
                     smtp.EnableSsl = true;
 
                     MailMessage message = new MailMessage()
                     {
                         Body = htmlMessage,
                         Subject = subject,
-                        From = (new MailAddress(Resources.SmtpDeliveryUsername))
+                        From = (new MailAddress(VaultHandler.Secrets.SmtpDeliveryUsername))
                     };
 
                     message.IsBodyHtml = true;

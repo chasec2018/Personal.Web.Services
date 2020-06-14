@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using ResumeService.Areas.Identity.Data
+@using ResumeService.Areas.Identity.EntityModels
 
 @inject SignInManager<ResumeServiceUsers> SignInManager
 @inject UserManager<ResumeServiceUsers> UserManager
@@ -9,9 +9,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <title>@ViewData["Title"] - Chase Crawford </title>
 
+    <link rel="stylesheet" href="/lib/highlight.js/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/custom.css" />
@@ -19,6 +19,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="/lib/highlight.js/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad()</script>
 
 </head> 
 <body>
@@ -86,7 +88,7 @@
                                 if (await UserManager.IsInRoleAsync(await @UserManager.GetUserAsync(User), "Administrator"))
                                 {
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-area="" asp-page="/AppData">App Management</a>
+                                        <a class="nav-link" asp-area="" asp-page="/AdminPortal">App Management</a>
                                     </li>
                                 }
                             }

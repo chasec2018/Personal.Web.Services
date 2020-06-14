@@ -1,17 +1,16 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using ResumeService.Areas.Identity.Data;
-using ResumeService.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using ResumeService.Areas.Identity.EntityModels;
+
 
 namespace ResumeService.Areas.Identity.Pages.Account
 {
@@ -22,7 +21,7 @@ namespace ResumeService.Areas.Identity.Pages.Account
         private readonly IEmailSender EmailSender;
 
 
-        public ResendEmailConfirmationModel(UserManager<ResumeServiceUsers> userManager, EmailHandler emailSender)
+        public ResendEmailConfirmationModel(UserManager<ResumeServiceUsers> userManager, IEmailSender emailSender)
         {
             UserManager = userManager;
             EmailSender = emailSender;

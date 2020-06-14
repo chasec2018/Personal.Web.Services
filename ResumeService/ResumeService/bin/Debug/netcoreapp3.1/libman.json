@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "highlight.js@9.18.0",
+      "destination": "wwwroot/lib/highlight.js/"
+    }
+  ]
+}

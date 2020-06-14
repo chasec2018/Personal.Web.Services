@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using ResumeService.Areas.Identity.Data;
-using ResumeService.Areas.Identity.Models;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using ResumeService.Areas.Identity.InputModels;
+using ResumeService.Areas.Identity.EntityModels;
+using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace ResumeService.Areas.Identity.Pages.Account.Manage
 {
@@ -25,37 +23,47 @@ namespace ResumeService.Areas.Identity.Pages.Account.Manage
             SignInManager = signInManager;
         }
 
-        public string Username { get; set; }
-
         [TempData]
         public string StatusMessage { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public InputProfileModel Input { get; set; }
+        public string Username { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string FirstName { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string LastName { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string PhoneNumber { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public DateTime Birthdate { get; set; }
+
+        [EmailAddress]
+        [BindProperty(SupportsGet = true)]
+        public string Email { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string Company { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string JobTitle { get; set; }
 
 
         private async Task LoadAsync(ResumeServiceUsers user)
         {
-
-            var userName = await UserManager.GetUserNameAsync(user);
-            var phoneNumber = await UserManager.GetPhoneNumberAsync(user);
-
-
             ResumeServiceUsers User = await UserManager.FindByNameAsync(await UserManager.GetUserNameAsync(user));
 
             Username = User.UserName;
-
-            Input = new InputProfileModel
-            {
-                Username = User.UserName,
-                FirstName = User.FirstName,
-                LastName = User.LastName,
-                PhoneNumber =  User.PhoneNumber,
-                Email = User.Email,
-                Birthdate = User.Birthday,
-                Company = User.Company,
-                JobTitle = User.JobTitle
-            };
+            FirstName = User.FirstName;
+            LastName = User.LastName;
+            PhoneNumber = User.PhoneNumber;
+            Email = User.Email;
+            Birthdate = User.Birthday;
+            Company = User.Company;
+            JobTitle = User.JobTitle;
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -78,19 +86,20 @@ namespace ResumeService.Areas.Identity.Pages.Account.Manage
             if (user == null)
                 return NotFound($"Unable to load user with ID '{UserManager.GetUserId(User)}'.");
 
+            
             if (!ModelState.IsValid)
             {
                 await LoadAsync(user);
                 return Page();
             }
 
-            user.UserName = Input.Username;
-            user.FirstName = Input.FirstName;
-            user.LastName = Input.LastName;
-            user.Birthday = Input.Birthdate;
-            user.PhoneNumber = Input.PhoneNumber;
-            user.Company = Input.Company;
-            user.JobTitle = Input.JobTitle;
+            user.UserName = Username;
+            user.FirstName = FirstName;
+            user.LastName = LastName;
+            user.Birthday = Birthdate;
+            user.PhoneNumber = PhoneNumber;
+            user.Company = Company;
+            user.JobTitle = JobTitle;
 
             IdentityResult Result = await UserManager.UpdateAsync(user);
 

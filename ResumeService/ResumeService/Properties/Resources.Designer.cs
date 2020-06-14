@@ -69,41 +69,5 @@ namespace ResumeService.Properties {
                 return ((byte[])(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to elcfqoxobdkjxoya.
-        /// </summary>
-        internal static string SmtpDeliveryPassword {
-            get {
-                return ResourceManager.GetString("SmtpDeliveryPassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to smtp.gmail.com.
-        /// </summary>
-        internal static string SmtpDeliveryServer {
-            get {
-                return ResourceManager.GetString("SmtpDeliveryServer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to chasecrawford2018@gmail.com.
-        /// </summary>
-        internal static string SmtpDeliveryUsername {
-            get {
-                return ResourceManager.GetString("SmtpDeliveryUsername", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Server=assimalign-vm-a\ASSIMALIGNVMA,1433;Database=ResumeServiceWebApp;User Id=sa;Password=Mc988776gy3423@;.
-        /// </summary>
-        internal static string SqlConnectionString {
-            get {
-                return ResourceManager.GetString("SqlConnectionString", resourceCulture);
-            }
-        }
     }
 }

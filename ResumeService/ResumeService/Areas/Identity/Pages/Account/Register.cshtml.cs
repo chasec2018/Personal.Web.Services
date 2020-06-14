@@ -1,21 +1,16 @@
-﻿using System;
-
-using System.Linq;
+﻿
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Encodings.Web;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using ResumeService.Areas.Identity.Data;
-using ResumeService.Services;
-using ResumeService.Areas.Identity.Models;
+using ResumeService.Areas.Identity.InputModels;
+using ResumeService.Areas.Identity.EntityModels;
+
 
 namespace ResumeService.Areas.Identity.Pages.Account
 {
@@ -26,15 +21,13 @@ namespace ResumeService.Areas.Identity.Pages.Account
         private readonly SignInManager<ResumeServiceUsers> SignInManager;
         private readonly UserManager<ResumeServiceUsers> UserManager;
         private readonly ILogger<RegisterModel> Logger;
-        private readonly IdentitySeeds Seeder;
 
-        public RegisterModel(RoleManager<ResumeServiceRoles> roleManager, UserManager<ResumeServiceUsers> userManager, SignInManager<ResumeServiceUsers> signInManager, ILogger<RegisterModel> logger, IdentitySeeds seeder)
+        public RegisterModel(RoleManager<ResumeServiceRoles> roleManager, UserManager<ResumeServiceUsers> userManager, SignInManager<ResumeServiceUsers> signInManager, ILogger<RegisterModel> logger)
         {
             RoleManager = roleManager;
             UserManager = userManager;
             SignInManager = signInManager;
             Logger = logger;
-            Seeder = seeder;
         }
 
         [BindProperty]
@@ -42,24 +35,12 @@ namespace ResumeService.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
-        
-        public async Task OnGetAsync(string returnUrl = null)
-        {
-            ReturnUrl = returnUrl;
-            //ExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        }
-
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-            //ExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
             {
-                await Seeder.SeedDatabase();
-
                 ResumeServiceUsers User = new ResumeServiceUsers()
                 { 
                     UserName = Input.Username,

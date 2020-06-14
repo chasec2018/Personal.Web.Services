@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using ResumeService.Areas.Identity.Data;
+using ResumeService.Areas.Identity.EntityModels;
 
 namespace ResumeService.Areas.Identity.Pages.Account
 {
@@ -30,13 +30,14 @@ namespace ResumeService.Areas.Identity.Pages.Account
 
         [Required]
         [BindProperty]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
+        [Display(Name = "New Password")]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         public string Password { get; set; }
 
+        [Required]
         [BindProperty]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 

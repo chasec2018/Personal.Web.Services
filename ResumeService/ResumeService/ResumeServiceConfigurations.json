@@ -1,0 +1,26 @@
+{
+
+  "Production": {
+    "SmtpDeliveryPassword": "elcfqoxobdkjxoya",
+    "SmtpDeliveryServer": "smtp.gmail.com",
+    "SmtpDeliveryUsername": "chasecrawford2018@gmail.com",
+    "ConnectionString": "Server=ASSIMALIGN-VM-A\\ASSIMALIGNVMA,1433;Database=ResumeServiceWebApp;Trusted_Connection=True;",
+    "DefaultAdminUsername": "ResumeServiceAdmin",
+    "DefaultAdminPassword": "Password123#",
+    "DefaultAdminEmail": "ccrawford@assimalign.com",
+    "LoggingDirectory": ""
+  },
+
+  "Development": {
+    "SmtpDeliveryPassword": "elcfqoxobdkjxoya",
+    "SmtpDeliveryServer": "smtp.gmail.com",
+    "SmtpDeliveryUsername": "chasecrawford2018@gmail.com",
+    "ConnectionString": "Server=vma.assimalign.com\\ASSIMALIGNVMADEV,1434;Database=ResumeServiceWebApp;User Id=DevOpsSqlService;Password=Dev895623aa7845#;",
+    "DefaultAdminUsername": "ResumeServiceAdmin",
+    "DefaultAdminPassword": "Password123#",
+    "DefaultAdminEmail": "ccrawford@assimalign.com",
+    "LoggingDirectory": ""
+  }
+}
+
+

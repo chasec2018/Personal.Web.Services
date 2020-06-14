@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using ResumeService.Areas.Identity.Data;
-using ResumeService.Areas.Identity.Models;
+using ResumeService.Areas.Identity.InputModels;
+using ResumeService.Areas.Identity.EntityModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace ResumeService.Areas.Identity.Pages.Account.Manage
 {
@@ -27,15 +25,30 @@ namespace ResumeService.Areas.Identity.Pages.Account.Manage
             Logger = logger;
         }
 
-        [BindProperty]
-        public InputPasswordChangeModel Input { get; set; }
-
         [TempData]
         public string StatusMessage { get; set; }
 
+        [Required]
+        [BindProperty]
+        [DataType(DataType.Password)]
+        public string OldPassword { get; set; }
+
+        [Required]
+        [BindProperty]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        public string NewPassword { get; set; }
+
+        [Required]
+        [BindProperty]
+        [DataType(DataType.Password)]
+        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await UserManager.GetUserAsync(User);
+            ResumeServiceUsers user = await UserManager.GetUserAsync(User);
 
             if (user == null)
                 return NotFound($"Unable to load user with ID '{UserManager.GetUserId(User)}'.");
@@ -43,23 +56,23 @@ namespace ResumeService.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
-            {
                 return Page();
-            }
 
-            var user = await UserManager.GetUserAsync(User);
+
+            ResumeServiceUsers user = await UserManager.GetUserAsync(User);
             if (user == null)
-            {
                 return NotFound($"Unable to load user with ID '{UserManager.GetUserId(User)}'.");
-            }
+            
 
-            var changePasswordResult = await UserManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
-            if (!changePasswordResult.Succeeded)
+            IdentityResult ChangePasswordResult = await UserManager.ChangePasswordAsync(user, OldPassword, NewPassword);
+
+            if (!ChangePasswordResult.Succeeded)
             {
-                foreach (var error in changePasswordResult.Errors)
+                foreach (var error in ChangePasswordResult.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }

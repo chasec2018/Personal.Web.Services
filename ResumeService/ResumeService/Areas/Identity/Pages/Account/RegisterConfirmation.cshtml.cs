@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using ResumeService.Areas.Identity.Data;
-using ResumeService.Services;
+﻿
 using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using ResumeService.Areas.Identity.EntityModels;
+
 
 namespace ResumeService.Areas.Identity.Pages.Account
 {
@@ -18,7 +17,7 @@ namespace ResumeService.Areas.Identity.Pages.Account
         private readonly UserManager<ResumeServiceUsers> UserManager;
         private readonly IEmailSender EmailSender;
 
-        public RegisterConfirmationModel(UserManager<ResumeServiceUsers> userManager, EmailHandler emailSender)
+        public RegisterConfirmationModel(UserManager<ResumeServiceUsers> userManager, IEmailSender emailSender)
         {
             UserManager = userManager;
             EmailSender = emailSender;
@@ -47,7 +46,6 @@ namespace ResumeService.Areas.Identity.Pages.Account
             catch(Exception exception)
             {
                 ErrorOccurred = true;
-
                 
                 if(email != null)
                 {

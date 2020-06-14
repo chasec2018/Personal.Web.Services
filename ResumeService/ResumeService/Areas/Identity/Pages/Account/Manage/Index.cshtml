@@ -15,36 +15,36 @@
                 <div class="row">
                     <div class="col">
                         <label class="form-text small">First Name</label>
-                        <input asp-for="Input.FirstName" class="form-control" />
-                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                        <input type="text" asp-for="@Model.FirstName" value="@Model.FirstName" class="form-control" required />
+                        <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
 
                         <label class="form-text small">Last Name</label>
-                        <input asp-for="Input.LastName" class="form-control" />
-                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                        <input type="text" asp-for="@Model.LastName" value="@Model.LastName" class="form-control" required  />
+                        <span asp-validation-for="@Model.LastName" class="text-danger"></span>
 
-                        <label class="form-text small">Birdate</label>
-                        <input type="date" asp-for="Input.Birthdate" class="form-control" />
-                        <span asp-validation-for="Input.Birthdate" class="text-danger"></span>
+                        <label class="form-text small">Birthdate</label>
+                        <input type="date" asp-for="@Model.Birthdate" value="@Model.Birthdate.ToString("yyyy-MM-dd")" class="form-control" required />
+                        <span asp-validation-for="@Model.Birthdate" class="text-danger"></span>
 
                         <label class="form-text small">Company</label>
-                        <input asp-for="Input.Company" class="form-control" />
+                        <input asp-for="@Model.Company" value="@Model.Company" class="form-control" />
+
                     </div>
 
                     <div class="col">
                         <div class="form-group">
                             <label class="form-text small">Username</label>
-                            <input asp-for="Input.Username" class="form-control" />
-                            <span asp-validation-for="Input.Username" class="text-danger"></span>
+                            <input type="text" asp-for="@Model.Username" value="@Model.Username" class="form-control" required />
+                            <span asp-validation-for="@Model.Username" class="text-danger"></span>
 
                             <label class="form-text small">Email</label>
-                            <input asp-for="Input.Email" class="form-control" disabled />
+                            <input asp-for="Email" class="form-control" disabled />
 
                             <label class="form-text small">Phone Number</label>
-                            <input asp-for="Input.PhoneNumber" class="form-control" />
-                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                            <input asp-for="PhoneNumber" class="form-control" />
 
                             <label class="form-text small">Job Title</label>
-                            <input asp-for="Input.JobTitle" class="form-control" />
+                            <input asp-for="JobTitle" class="form-control" />
                         </div>
                     </div>
                 </div>
