@@ -69,5 +69,44 @@ namespace ResumeService.Properties {
                 return ((byte[])(obj));
             }
         }
+<<<<<<< HEAD
+=======
+        
+        /// <summary>
+        ///   
+        /// </summary>
+        internal static string SmtpDeliveryPassword {
+            get {
+                return ResourceManager.GetString("SmtpDeliveryPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to smtp.gmail.com.
+        /// </summary>
+        internal static string SmtpDeliveryServer {
+            get {
+                return ResourceManager.GetString("SmtpDeliveryServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to chasecrawford2018@gmail.com.
+        /// </summary>
+        internal static string SmtpDeliveryUsername {
+            get {
+                return ResourceManager.GetString("SmtpDeliveryUsername", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   
+        /// </summary>
+        internal static string SqlConnectionString {
+            get {
+                return ResourceManager.GetString("SqlConnectionString", resourceCulture);
+            }
+        }
+>>>>>>> refs/remotes/origin/master
     }
 }

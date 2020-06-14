@@ -10,7 +10,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <DestinationConnectionStrings Include="ResumeServiceContextConnection">
-      <Value>Server=assimalign-vm-a\ASSIMALIGNVMA,1433%3bDatabase=ResumeServiceWebApp%3bUser Id=sa%3bPassword=Mc988776gy3423%40%3b</Value>
+      <Value></Value>
     </DestinationConnectionStrings>
   </ItemGroup>
 </Project>
