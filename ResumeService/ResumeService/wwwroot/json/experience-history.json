@@ -1,27 +1,26 @@
 [
   {
     "Object ID": 2045,
-    "Start Month": "Sep",
+    "Start Month": "September",
     "Start Year": 2017,
-    "End Month": "Jun",
+    "End Month": "June",
     "End Year": 2019,
     "Company": "Denso Corporation",
     "Title": "Production Control Specialist",
     "Employment Type": "Full-Time",
     "Tasks": [
-      "Utilize Microsoft SSDT to extract, transform and load data into new subsets, analyze & cleanse data, and generate reports which are hosted on the company's dashboard",
+      "Utilize Microsoft SSDT to extract, transform and load data into new subsets, analyze \u0026 cleanse data, and generate reports which are hosted on the company\u0027s dashboard",
       "Provide BI solutions from data spread out across multiple resources by integrating the data into relational data warehouse.",
       "Maintain various IT project folders which were tested and deployed in a Filesystem."
     ]
   },
-
   {
     "Object ID": 2055,
-    "Start Month": "Jun",
+    "Start Month": "June",
     "Start Year": 2019,
-    "End Month": "Nov",
+    "End Month": "November",
     "End Year": 2019,
-    "Company": "Lowe's Corporation",
+    "Company": "Lowe\u0027s Corporation",
     "Title": "Business Intelligence Developer",
     "Employment Type": "Contractor",
     "Tasks": [
@@ -30,12 +29,11 @@
       "Created an On-Premise Data Gateway which centralized access to the various data source for Power BI."
     ]
   },
-
   {
     "Object ID": 2056,
-    "Start Month": "Nov",
+    "Start Month": "November",
     "Start Year": 2019,
-    "End Month": "Mar",
+    "End Month": "March",
     "End Year": 2020,
     "Company": "DCLI Inc",
     "Title": "Business Intelligence Developer",
@@ -46,5 +44,4 @@
       "Supported reporting team through utilization of Report Server APIs"
     ]
   }
-
 ]

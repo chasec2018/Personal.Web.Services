@@ -61,40 +61,28 @@
                                 <a class="nav-link" asp-area="" asp-page="/Index">Overview</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Projects">Projects</a>
+                                <a class="nav-link" asp-area="" asp-page="/Projects">Project Experience</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Repository">Repository</a>
+                                <a class="nav-link" asp-area="" asp-page="/Experience">Work Experience</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Experience">Experience</a>
-                            </li>
-
-                            @if (SignInManager.IsSignedIn(User))
-                            {
-                                
-                                if (await UserManager.IsInRoleAsync(await @UserManager.GetUserAsync(User), "Guest") || await UserManager.IsInRoleAsync(await @UserManager.GetUserAsync(User), "Administrator"))
-                                {
-                                    <li class="nav-item">
-                                        <a class="nav-link" asp-area="" asp-page="/Demos">Code Demos</a>
-                                    </li>
-                                }
-                            }
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/AppInfo">App Info</a>
+                                <a class="nav-link" asp-area="" asp-page="/Repository">GitHub Repositories</a>
                             </li>
                             @if (SignInManager.IsSignedIn(User))
                             {
-                                if (await UserManager.IsInRoleAsync(await @UserManager.GetUserAsync(User), "Administrator"))
-                                {
-                                    <li class="nav-item">
-                                        <a class="nav-link" asp-area="" asp-page="/AdminPortal">App Management</a>
-                                    </li>
-                                }
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-page="/Demos">Code Demos</a>
+                                </li>
                             }
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/AppInsight">Application Insight</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/AppInfo">Application Info</a>
+                            </li>
                         </ul>       
                     </div>
-
                     <partial name="_LoginPartial" />
                 </div>
                 <div class="col-sm-9 border-dark shadow-lg rounded-lg p-3">

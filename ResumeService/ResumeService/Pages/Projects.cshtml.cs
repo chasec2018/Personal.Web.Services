@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using ResumeService.Services;
-using ResumeService.Models;
+using ResumeService.EntryModels;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -24,7 +24,7 @@ namespace ResumeService.Pages
         }
 
         [BindProperty(SupportsGet = true)]
-        public List<ProjectHistory> ProjHistory { get; set; } = new List<ProjectHistory>();
+        public List<ProjectExpereinceEntry> Projects { get; set; } = new List<ProjectExpereinceEntry>();
 
         [BindProperty(SupportsGet = true)]
         public string CSharpCode { get; private set; } = @"
@@ -64,7 +64,7 @@ public class ProjectsModel : PageModel
         {
             try
             {
-                ProjHistory.AddRange(JsonHandler.ReturnGenericJsonObject<List<ProjectHistory>>(
+                Projects.AddRange(JsonHandler.ReturnGenericJsonObject<List<ProjectExpereinceEntry>>(
                     Path.Combine(WebHostEnvironment.WebRootPath, "json\\project-history.json")));
             }
             catch(Exception exception)

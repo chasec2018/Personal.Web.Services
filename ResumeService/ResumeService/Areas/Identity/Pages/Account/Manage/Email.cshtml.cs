@@ -50,13 +50,14 @@ namespace ResumeService.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnGetAsync()
         {
             ResumeServiceUsers user = await UserManager.GetUserAsync(User);
+
             if (user == null)
                 return NotFound($"Unable to load user with ID '{UserManager.GetUserId(User)}'.");
-
 
             Email = user.Email;
             IsEmailConfirmed = user.EmailConfirmed;
             NewEmail = user.Email;
+
             return Page();
         }
 

@@ -32,57 +32,60 @@
         </div>
     </div>
 
-    <div class="container-fluid">
-        @foreach (var project in Model.ProjHistory)
-        {
-            <div class="accordion m-2" id="ID-@project.AccordianID">
-                <div class="container-fluid">
-                    <div id="ID-@project.HeaderID">
+    <div class="container-fluid mt-2">
+        <div class="accordion" id="project-experience">
+            @foreach (var Project in Model.Projects)
+            {
+
+                <div class="card">
+                    <div class="card-header" id="header-@Project.EntryID">
                         <h2 class="mb-0">
-                            <button class="btn btn-block btn-dark rounded border-0" type="button" data-toggle="collapse" data-target="#ID-@project.AccordianID-@project.HeaderID" aria-expanded="true" aria-controls="ID-@project.AccordianID-@project.HeaderID">
-                                @project.ProjectTitle
+                            <button class="btn btn-dark btn-block text-center" type="button" data-toggle="collapse" data-target="#project-@Project.EntryID" aria-expanded="true" aria-controls="project-@Project.EntryID">
+                                @Project.ProjectTitle
                             </button>
                         </h2>
                     </div>
 
-                    <div id="ID-@project.AccordianID-@project.HeaderID" class="collapse" aria-labelledby="ID-@project.HeaderID" data-parent="#ID-@project.AccordianID">
-                        <div class="row m-2">
-                            <div class="col">
-                                <h6 class="font-italic small m-0">Timeline: @project.Timeline</h6>
-                                <h6 class="font-italic small m-0">Company: @project.Company</h6>
-                                <h6 class="h6 mt-2 mb-2">Project Overview</h6>
-                                <p class="small">
-                                    @project.Overview
-                                </p>
+                    <div id="project-@Project.EntryID" class="collapse" aria-labelledby="header-@Project.EntryID" data-parent="#project-experience">
+                        <div class="card-body">
+                            <div class="row m-2">
+                                <div class="col">
+                                    <h6 class="font-italic small m-0">Timeline: @Project.StartMonth @Project.StartYear - @Project.EndMonth @Project.EndYear</h6>
+                                    <h6 class="font-italic small m-0">Company: @Project.Company</h6>
+                                    <h6 class="h6 mt-2 mb-2">Project Overview</h6>
+                                    <p class="small">
+                                        @Project.Overview
+                                    </p>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row m-2">
-                            <div class="col-6">
-                                <h6 class="h6">Technologies Utilized</h6>
-                                <ul>
-                                    @foreach (var technology in project.Technology)
-                                    {
-                                        <li class="small">
-                                            @technology
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                            <div class="col-6">
-                                <h6 class="h6">Languages Utilized</h6>
-                                <ul>
-                                    @foreach (var language in project.Languages)
-                                    {
-                                        <li class="small">
-                                            @language
-                                        </li>
-                                    }
-                                </ul>
+                            <div class="row m-2">
+                                <div class="col-6">
+                                    <h6 class="h6">Technologies Utilized</h6>
+                                    <ul>
+                                        @foreach (var technology in Project.Technology)
+                                        {
+                                            <li class="small">
+                                                @technology
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="h6">Languages Utilized</h6>
+                                    <ul>
+                                        @foreach (var language in Project.Languages)
+                                        {
+                                            <li class="small">
+                                                @language
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>

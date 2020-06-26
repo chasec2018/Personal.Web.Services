@@ -27,7 +27,7 @@ namespace ResumeService
         {
             services.Configure<IISServerOptions>(options =>
             {
-                options.AutomaticAuthentication = false;
+                options.AutomaticAuthentication = true;
             });
 
             services.AddTransient<EmailHandler>();
@@ -54,12 +54,12 @@ namespace ResumeService
             app.UseAuthentication();
             app.UseAuthorization();
 
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
-
             // Build Migration at runtime : Environment (Production/Development) will dictate Connection String
             using (IServiceScope Scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ResumeService.Pages
 {
-    [Authorize]
+    [Authorize(Roles = "Guest,Administrator")]
     public class DemosModel : PageModel
     {
         public void OnGet()

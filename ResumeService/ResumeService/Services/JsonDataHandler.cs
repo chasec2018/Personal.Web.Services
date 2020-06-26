@@ -2,18 +2,17 @@
 using System.IO;
 using System.Text.Json;
 using System.Collections.Generic;
-
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ResumeService.Services
 {
-    public enum JsonAppDataObjectType
-    {
-        ArrayType,
-        DictionaryProperty
-    }
-
     public class JsonDataHandler
     {
+        public bool ExceptionOccurred { get; set; } = false;
+        public Exception JsonHandlerException { get; set; }
+
         public T ReturnGenericJsonObject<T>(string DataFile)
         {
             // Validate DataFile Exits
@@ -35,6 +34,29 @@ namespace ResumeService.Services
             }
         }
 
+        public async Task<T> ReturnGenericJsonObjectAsync<T>(string DataFile) where T : class, new()
+        {
+            try
+            {
+                if (!File.Exists(DataFile))
+                    throw new FileNotFoundException();
+
+                using (FileStream Stream = new FileStream(DataFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    using (StreamReader Reader = new StreamReader(Stream))
+                    {
+                        return JsonSerializer.Deserialize<T>(await Reader.ReadToEndAsync());
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                JsonHandlerException = exception;
+                return null;
+            }
+        }
+
+        /*
         public void AppendNewArrayJsonObject<T>(string DataFile, T DataObject)
         {
             // Validate DataFile Exits
@@ -46,18 +68,25 @@ namespace ResumeService.Services
 
             try
             {
+
+                JsonSerializerOptions Options = new JsonSerializerOptions()
+                {
+                    WriteIndented = true,
+                    IgnoreNullValues = true
+                };
+
                 // Validate string length
                 if (data.Length.Equals(0))
                 {
                     List<T> JsonObject = new List<T>();
                     JsonObject.Add(DataObject);
-                    File.WriteAllText(DataFile, JsonSerializer.Serialize<List<T>>(JsonObject));
+                    File.WriteAllText(DataFile, JsonSerializer.Serialize<List<T>>(JsonObject, Options));
                 }
                 else
                 {
                     List<T> JsonObject = JsonSerializer.Deserialize<List<T>>(File.ReadAllText(DataFile));
                     JsonObject.Add(DataObject);
-                    File.WriteAllText(DataFile, JsonSerializer.Serialize<List<T>>(JsonObject));
+                    File.WriteAllText(DataFile, JsonSerializer.Serialize<List<T>>(JsonObject, Options));
                 }
             }
             catch(Exception exception)
@@ -68,38 +97,65 @@ namespace ResumeService.Services
                 throw exception;
             }
         }
+        */
 
-        public void EditArrayJsonObject<T>(string DataFile, T OldDataObject, T NewDataObject)
+        public void AppendGenericJsonObject<T>(string DataFile, T NewData, out bool IsSaved)
         {
-            using (FileStream Stream = new FileStream(DataFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            IsSaved = false;
+
+            using (FileStream Stream = new FileStream(DataFile, FileMode.Truncate, FileAccess.Write, FileShare.Read))
             {
-                using (StreamReader Reader = new StreamReader(Stream))
+                try
                 {
-                    List<T> JsonObject = JsonSerializer.Deserialize<List<T>>(Reader.ReadToEnd());
 
-                    T item;
-
-                    try
+                    JsonSerializerOptions Options = new JsonSerializerOptions()
                     {
-                        for (int i = 0; i < JsonObject.Count; i++)
-                        {
-                            if (JsonObject[i].Equals(OldDataObject))
-                            {
-                                item = JsonObject[i];
-                                JsonObject.Remove(item);
-                                break;
-                            }
-                        }
+                        WriteIndented = true,
+                        IgnoreNullValues = true
+                    };
 
-                        JsonObject.Add(NewDataObject);
-                        File.WriteAllText(DataFile, JsonSerializer.Serialize<List<T>>(JsonObject));
+                    string NewJsonObject = JsonSerializer.Serialize<T>(NewData, Options);
 
-                    }
-                    catch (Exception exception)
+                    using (StreamWriter Writer = new StreamWriter(Stream))
                     {
-                        throw exception;
-
+                        Writer.Write(NewJsonObject);
+                        Writer.Flush();
                     }
+
+                    IsSaved = true;
+
+                }
+                catch(Exception exception)
+                {
+                    JsonHandlerException = exception;
+                }
+            }
+        }
+
+        public async Task AppendGenericJsonObjectAsync<T>(string DataFile, T NewData) where T : class, new()
+        {
+            using (FileStream Stream = new FileStream(DataFile, FileMode.Truncate, FileAccess.Write, FileShare.Read))
+            {
+                try
+                {
+                    JsonSerializerOptions Options = new JsonSerializerOptions()
+                    {
+                        WriteIndented = true,
+                        IgnoreNullValues = true
+                    };
+
+                    string NewJsonObject = JsonSerializer.Serialize<T>(NewData, Options);
+
+                    using (StreamWriter Writer = new StreamWriter(Stream))
+                    {
+                        await Writer.WriteAsync(NewJsonObject);
+                        await Writer.FlushAsync();
+                    }
+
+                }
+                catch (Exception exception)
+                {
+                    JsonHandlerException = exception;
                 }
             }
         }

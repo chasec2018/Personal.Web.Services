@@ -1,5 +1,6 @@
 ﻿@page
-@model ResumeService.Pages.RepositoryModel
+@model RepositoryModel
+@using ResumeService.EntryModels 
 @{
     ViewData["Title"] = "Repository";
 }
@@ -44,7 +45,7 @@
             </thead>
 
             <tbody>
-                @foreach (ResumeService.Models.GithubRepo Repository in @Model.Repositories)
+                @foreach (GithubRepositoryEntry Repository in Model.Repositories)
                 {
                     <tr>
                         <td class="small">@Repository.RepoName</td>

@@ -14,7 +14,7 @@ namespace ResumeService.Areas.Identity.Data
         }
 
 
-        public DbSet<ResumeServiceVisitors> ResumeServiceUniqueTraffic { get; set; }
+        public DbSet<ResumeServiceVisitors> ResumeServiceVisitors { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder Builder)

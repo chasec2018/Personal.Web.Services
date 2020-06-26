@@ -26,9 +26,13 @@ namespace ResumeService.Areas.Identity
 
                 services.AddDbContext<ResumeServiceContext>(options =>
                 {
+                    if (Context.HostingEnvironment.IsEnvironment("Local"))
+                        Secrets = JsonSerializer.Deserialize<VaultSecrets>(Context.Configuration["ResumeServiceLocal"]);
+
                     if (Context.HostingEnvironment.IsProduction())
                         Secrets = JsonSerializer.Deserialize<VaultSecrets>(Context.Configuration["ResumeServiceProduction"]);
-                    else
+
+                    if (Context.HostingEnvironment.IsDevelopment())
                         Secrets = JsonSerializer.Deserialize<VaultSecrets>(Context.Configuration["ResumeServiceDevelopment"]);
 
                     options.UseSqlServer(Secrets.ConnectionString);
@@ -38,10 +42,20 @@ namespace ResumeService.Areas.Identity
                 {
                     options.SignIn.RequireConfirmedAccount = true;
                     options.User.RequireUniqueEmail = true;
+
+                    options.Password.RequireDigit = true;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequireUppercase = true;
                 })
                     .AddDefaultUI()
                     .AddDefaultTokenProviders()
                     .AddEntityFrameworkStores<ResumeServiceContext>();
+
+                services.ConfigureApplicationCookie(options =>
+                {
+                    options.AccessDeniedPath = $"/Identity/Account/PageNotFound";
+                });
 
                 services.AddTransient<IdentityDbSeeder>();
                 services.AddSingleton<IEmailSender, EmailHandler>();

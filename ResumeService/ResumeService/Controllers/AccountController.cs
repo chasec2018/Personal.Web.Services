@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,9 @@ using ResumeService.Areas.Identity.EntityModels;
 
 namespace ResumeService.Controllers
 {
+
     [ApiController]
+    [AllowAnonymous]
     [Route("api/account/{action}")]
     public class AccountController : ControllerBase
     {
@@ -36,6 +39,7 @@ namespace ResumeService.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> LogoutAsync()
         {
             await SignInManager.SignOutAsync();
@@ -43,6 +47,7 @@ namespace ResumeService.Controllers
             return RedirectToPage("/Account/Login", new { area = "Identity" });
         }
 
+        
 
         [HttpGet]
         public async Task<IActionResult> DownloadAsync()

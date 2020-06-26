@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using ResumeService.Models;
+using ResumeService.EntryModels;
 using ResumeService.Services;
 using ResumeService.Properties;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +10,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
 using ResumeService.Areas.Identity.Data;
 using ResumeService.Areas.Identity.EntityModels;
-
+using System.Net.NetworkInformation;
+using System.Net.Http;
+using System.Text.Json;
+using System.Net;
 
 namespace ResumeService.Pages
 {
@@ -33,7 +36,7 @@ namespace ResumeService.Pages
         public string ProfileImage { get; set; } = string.Empty;
 
         [BindProperty(SupportsGet = true)]
-        public TechnicalAbility TechnicalAbilities { get; set; } = new TechnicalAbility();
+        public TechnicalOverviewEntry TechnicalAbilities { get; set; } = new TechnicalOverviewEntry();
 
         [BindProperty(SupportsGet = true)]
         public string CSharpCode { get; set; } = @"
@@ -81,7 +84,7 @@ namespace ResumeService.Pages
             {
                 ProfileImage = String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(Resources.ProfileImage));
 
-                TechnicalAbilities = JsonHandler.ReturnGenericJsonObject<TechnicalAbility>(
+                TechnicalAbilities = JsonHandler.ReturnGenericJsonObject<TechnicalOverviewEntry>(
                     Path.Combine(WebHostEnvironment.WebRootPath, "json\\technical-ability.json"));
 
 
@@ -92,7 +95,21 @@ namespace ResumeService.Pages
                 UniqueVisitor.RemoteIP = HttpContext.Connection.RemoteIpAddress.ToString();
                 UniqueVisitor.RemotePort = HttpContext.Connection.RemotePort;
 
+                
+                /*
+                using(HttpClient Client = new HttpClient())
+                {
+                    Client.DefaultRequestHeaders.Accept.Clear();
+                    Client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    string api = "https://api.ipgeolocationapi.com/geolocate";
+                    string adr = "40.77.167.144";
 
+                    Uri url = new Uri($"{api}/{adr}");
+
+                    GeoLocation LocationData = JsonSerializer.Deserialize<GeoLocation>(await Client.GetStringAsync(url));
+                }
+
+              */
                 await Context.AddAsync(UniqueVisitor);
                 await Context.SaveChangesAsync();                
             }

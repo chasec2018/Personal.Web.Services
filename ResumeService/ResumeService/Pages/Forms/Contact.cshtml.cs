@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
-using ResumeService.Properties;
-using ResumeService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using ResumeService.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
 using ResumeService.Areas.Identity.EntityModels;
 
@@ -23,19 +16,96 @@ namespace ResumeService.Pages.Forms
         private readonly UserManager<ResumeServiceUsers> UserManager;
         private readonly SignInManager<ResumeServiceUsers> SignInManager;
 
-        public ContactModel(ILogger<ContactModel> _Logger, EmailHandler _EmailHandler, UserManager<ResumeServiceUsers> _UserManager, SignInManager<ResumeServiceUsers> _SignInManager)
+        public ContactModel(ILogger<ContactModel> logger, EmailHandler emailHandler, UserManager<ResumeServiceUsers> userManager, SignInManager<ResumeServiceUsers> signInManager)
         {
-            Logger = _Logger;
-            Emailer = _EmailHandler;
-            UserManager = _UserManager;
-            SignInManager = _SignInManager;
+            Logger = logger;
+            Emailer = emailHandler;
+            UserManager = userManager;
+            SignInManager = signInManager;
         }
 
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public bool EmailSent { get; set; } = false;
 
         [BindProperty(SupportsGet = true)]
-        public EmailModel Email { get; set; }
+        public string FirstName { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string LastName { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string Affiliation { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string Title { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string Email { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string PhoneNumber { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string Subject { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string Message { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string CSharpCode { get; set; } = @"
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+using ResumeService.Services;
+using Microsoft.AspNetCore.Identity;
+using ResumeService.Areas.Identity.EntityModels;
+
+namespace ResumeService.Pages.Forms
+{
+    public class ContactModel : PageModel
+    {
+        private readonly ILogger<ContactModel> Logger;
+        private readonly EmailHandler Emailer;
+        private readonly UserManager<ResumeServiceUsers> UserManager;
+        private readonly SignInManager<ResumeServiceUsers> SignInManager;
+
+        public ContactModel(ILogger<ContactModel> logger, EmailHandler emailHandler, UserManager<ResumeServiceUsers> userManager, SignInManager<ResumeServiceUsers> signInManager)
+        {
+            Logger = logger;
+            Emailer = emailHandler;
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        [BindProperty(SupportsGet = true)]
+        public bool EmailSent { get; set; } = false;
+
+        [BindProperty(SupportsGet = true)]
+        public string FirstName { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string LastName { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string Affiliation { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string Title { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string Email { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string PhoneNumber { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string Subject { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string Message { get; set; }
+
 
         public async Task OnGetAsync()
         {
@@ -43,26 +113,71 @@ namespace ResumeService.Pages.Forms
             {
                 ResumeServiceUsers user = await UserManager.GetUserAsync(User);
 
-                Email.FirstName = user.FirstName;
-                Email.LastName = user.LastName;
-                Email.PhoneNumber = user.PhoneNumber;
-                Email.Email = user.Email;
-                Email.Title = user.JobTitle;
-                Email.Affiliation = user.Company;
+                FirstName = user.FirstName;
+                LastName = user.LastName;
+                PhoneNumber = user.PhoneNumber;
+                Email = user.Email;
+                Title = user.JobTitle;
+                Affiliation = user.Company;
             }
         }
 
         public async Task<ActionResult> OnPostAsync()
         {
-            Emailer.MessageSubject = $"Recruitment Enquiry: {Email.FirstName} {Email.LastName}";
-            Emailer.Sender = Email.Email;
-            Emailer.MessageBody = $"Requester: {Email.FirstName} {Email.LastName} <br /> " +
-                                  $"Affiliation: {Email.Affiliation ?? "NA"} <br /> " +
-                                  $"Job Title: {Email.Title ?? "NA"} <br /> " +
-                                  $"Contact Email: {Email.Email} <br /> " +
-                                  $"Contact Phone: {Email.PhoneNumber} <br /> " +
-                                  $"Subject Matter:{Email.Subject} <br /> <br /> " +
-                                  $"{Email.Message}";
+            Emailer.MessageSubject = $'Recruitment Enquiry: {FirstName
+    } {LastName
+}';
+            Emailer.Sender = Email;
+            Emailer.MessageBody = $'Requester: {FirstName} {LastName} <br /> ' +
+                                  $'Affiliation: {Affiliation ?? 'NA'} <br /> ' +
+                                  $'Job Title: {Title ?? 'NA'} <br /> ' +
+                                  $'Contact Email: {Email} <br /> ' +
+                                  $'Contact Phone: {PhoneNumber} <br /> ' +
+                                  $'Subject Matter:{Subject} <br /> <br /> ' +
+                                  $'{Message}';
+
+            Emailer.EnableSsl = true;
+            Emailer.IsHtml = true;
+
+            if (await Emailer.Send())
+                EmailSent = true;
+            else if(Emailer.IsException(out Exception error))
+            {
+                Logger.LogError(error.Message, error);
+            }
+            return Page();
+        }
+    }
+}
+";
+
+
+        public async Task OnGetAsync()
+        {
+            if (SignInManager.IsSignedIn(User))
+            {
+                ResumeServiceUsers user = await UserManager.GetUserAsync(User);
+
+                FirstName = user.FirstName;
+                LastName = user.LastName;
+                PhoneNumber = user.PhoneNumber;
+                Email = user.Email;
+                Title = user.JobTitle;
+                Affiliation = user.Company;
+            }
+        }
+
+        public async Task<ActionResult> OnPostAsync()
+        {
+            Emailer.MessageSubject = $"Recruitment Enquiry: {FirstName} {LastName}";
+            Emailer.Sender = Email;
+            Emailer.MessageBody = $"Requester: {FirstName} {LastName} <br /> " +
+                                  $"Affiliation: {Affiliation ?? "NA"} <br /> " +
+                                  $"Job Title: {Title ?? "NA"} <br /> " +
+                                  $"Contact Email: {Email} <br /> " +
+                                  $"Contact Phone: {PhoneNumber} <br /> " +
+                                  $"Subject Matter:{Subject} <br /> <br /> " +
+                                  $"{Message}";
 
             Emailer.EnableSsl = true;
             Emailer.IsHtml = true;

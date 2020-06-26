@@ -31,14 +31,12 @@ namespace ResumeService.Areas.Identity.Pages.Account
         [Required]
         [BindProperty]
         [DataType(DataType.Password)]
-        [Display(Name = "New Password")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-        public string Password { get; set; }
+        public string NewPassword { get; set; }
 
         [Required]
         [BindProperty]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
@@ -61,27 +59,30 @@ namespace ResumeService.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
+                return Page();
+
+            if (NewPassword != ConfirmPassword)
             {
+                ModelState.AddModelError(string.Empty, "The Passwords do not match");
                 return Page();
             }
 
             var user = await _userManager.FindByEmailAsync(Email);
+
             if (user == null)
-            {
-                // Don't reveal that the user does not exist
                 return RedirectToPage("./ResetPasswordConfirmation");
-            }
 
-            var result = await _userManager.ResetPasswordAsync(user, Code, Password);
+            var result = await _userManager.ResetPasswordAsync(user, Code, NewPassword);
+
             if (result.Succeeded)
-            {
                 return RedirectToPage("./ResetPasswordConfirmation");
-            }
+            
 
-            foreach (var error in result.Errors)
+            foreach (IdentityError error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+
             return Page();
         }
     }

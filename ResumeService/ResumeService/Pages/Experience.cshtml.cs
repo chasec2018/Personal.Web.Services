@@ -2,7 +2,7 @@
 using System.IO;
 using ResumeService.Services;
 using System.Collections.Generic;
-using ResumeService.Models;
+using ResumeService.EntryModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -24,7 +24,7 @@ namespace ResumeService.Pages
         }
 
         [BindProperty(SupportsGet = true)]
-        public List<ExperienceHistory> Experiences { get; set; } = new List<ExperienceHistory>();
+        public List<WorkExperienceEntry> Experiences { get; set; } = new List<WorkExperienceEntry>();
 
         [BindProperty(SupportsGet = true)]
         public string CSharpCode { get; set; } = @"
@@ -87,7 +87,7 @@ namespace ResumeService.Pages
         {
             try
             {
-                Experiences.AddRange(JsonHandler.ReturnGenericJsonObject<List<ExperienceHistory>>(
+                Experiences.AddRange(JsonHandler.ReturnGenericJsonObject<List<WorkExperienceEntry>>(
                     Path.Combine(WebHostEnvironment.WebRootPath, "json\\experience-history.json")));
             }
             catch(Exception exception)

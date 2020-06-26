@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using ResumeService.Areas.Identity.InputModels;
 using ResumeService.Areas.Identity.EntityModels;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace ResumeService.Areas.Identity.Pages.Account.Manage
 {
@@ -28,21 +28,17 @@ namespace ResumeService.Areas.Identity.Pages.Account.Manage
         [TempData]
         public string StatusMessage { get; set; }
 
-        [Required]
         [BindProperty]
         [DataType(DataType.Password)]
         public string OldPassword { get; set; }
 
-        [Required]
         [BindProperty]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         public string NewPassword { get; set; }
 
-        [Required]
         [BindProperty]
         [DataType(DataType.Password)]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
 
@@ -62,8 +58,14 @@ namespace ResumeService.Areas.Identity.Pages.Account.Manage
             if (!ModelState.IsValid)
                 return Page();
 
+            if(NewPassword != ConfirmPassword)
+            {
+                ModelState.AddModelError(string.Empty, "The Passwords do not match");
+                return Page();
+            }
 
             ResumeServiceUsers user = await UserManager.GetUserAsync(User);
+
             if (user == null)
                 return NotFound($"Unable to load user with ID '{UserManager.GetUserId(User)}'.");
             

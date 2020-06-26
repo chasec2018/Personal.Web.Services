@@ -16,9 +16,14 @@
             <li class="nav-item">
                 <a id="manage" class="nav-link text-danger small" asp-area="Identity" asp-page="/Account/Manage/Index">Manage Account</a>
             </li>
+            if (await UserManager.IsInRoleAsync(Name, "Administrator"))
+            {
+                <li class="nav-item">
+                    <a id="manage" class="nav-link text-danger small" asp-area="" asp-page="/AdminPortal">Manage App</a>
+                </li>
+            }
             <li class="nav-item">
-                
-                <a id="logout" class="nav-link text-danger small" asp-controller="account" asp-action="Logout" >Logout</a>
+                <a id="logout" class="nav-link text-danger small" asp-controller="account" asp-action="Logout">Logout</a>
             </li>
         }
         else

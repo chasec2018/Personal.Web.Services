@@ -1,24 +1,28 @@
 ﻿@page
 @model AdminPortalModel
 @{
-    ViewData["Title"] = "Management";
+    ViewData["Title"] = "App Management";
 }
 
-<h4 class="h4">Management</h4>
-<hr/>
+<h4 class="h4">App Management</h4>
+<hr />
 <div class="row">
     <div class="col-sm-3">
         <div class="list-group" id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action active" id="list-users-list" data-toggle="list" href="#list-users" role="tab" aria-controls="users">Users</a>
-            <a class="list-group-item list-group-item-action" id="list-activity-list" data-toggle="list" href="#list-activity" role="tab" aria-controls="activity">Activity</a>
+            <a class="list-group-item list-group-item-action" id="list-roles-list" data-toggle="list" href="#list-roles" role="tab" aria-controls="roles">Roles</a>
+            <a class="list-group-item list-group-item-action" id="list-overview-info-list" data-toggle="list" href="#list-overview-info" role="tab" aria-controls="overview-info">Overview Page</a>
+            <a class="list-group-item list-group-item-action" id="list-experience-update-list" data-toggle="list" href="#list-experience-update" role="tab" aria-controls="experience-update">Work Experience Page</a>
+            <a class="list-group-item list-group-item-action" id="list-projects-update-list" data-toggle="list" href="#list-projects-update" role="tab" aria-controls="projects-update">Project Experience Page</a>
         </div>
     </div>
 
     <div class="col-sm-9">
+        <partial name="_StatusMessage" model="Model.StatusMessage" />
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="list-users" role="tabpanel" aria-labelledby="list-users-list">
                 <table class="table table-sm">
-                    <thead>
+                    <thead class="small">
                         <tr>
                             <th scope="col">First Name</th>
                             <th scope="col">Last Name</th>
@@ -31,7 +35,7 @@
                     </thead>
 
                     <tbody class="small">
-                        @foreach (var User in Model.Users)
+                        @foreach (var User in Model.AppUsers)
                         {
                             <tr>
                                 <td>@User.FirstName</td>
@@ -46,12 +50,503 @@
                     </tbody>
                 </table>
             </div>
+            <div id="list-roles" class="tab-pane fade">
+                <h6 class="h6">Add New Role</h6>
+                <form method="post">
+                    <div class="form-group">
+                        <label class="small font-weight-bold">Role Name:</label>
+                        <input class="form-control form-control-sm" asp-for="@Model.AppRole.Name" />
+                        <label class="small font-weight-bold">Role Description:</label>
+                        <input class="form-control form-control-sm" asp-for="@Model.AppRole.Description" />
+                    </div>
+                    <button type="submit" asp-page-handler="AddDefinedRole" class="btn btn-sm btn-primary">Add</button>
+                </form>
+                <hr />
 
-            <div id="list-activity" class="tab-pane fade">
+                <h6 class="h6">Manage Current Roles</h6>
+                <hr />
+                @foreach (var appRole in Model.AppRoles.OrderBy(p => p.Name))
+                {
+                    <form method="post">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <p class="small font-weight-bold">Role Name:</p>
+                                <p class="small font-weight-bold">Role Description:</p>
+                            </div>
+                            <div class="col-sm-7">
+                                <input class="form-control" asp-for="@Model.AppRole.Id" value="@appRole.Id" hidden />
+                                @if (appRole.Name.Equals("Administrator"))
+                                {
+                                    <input class="form-control form-control-sm" asp-for="@Model.AppRole.Name" value="@appRole.Name" disabled />
+                                    <input class="form-control form-control-sm" asp-for="@Model.AppRole.Description" value="@appRole.Description" disabled />
+                                }
+                                else
+                                {
+                                    <input class="form-control form-control-sm" asp-for="@Model.AppRole.Name" value="@appRole.Name" />
+                                    <input class="form-control form-control-sm" asp-for="@Model.AppRole.Description" value="@appRole.Description" />
+                                }
+
+                            </div>
+                            <div class="col-sm-3">
+                                @if (!appRole.Name.Equals("Administrator"))
+                                {
+                                    <button type="submit" asp-page-handler="DeleteDefinedRole" class="btn btn-sm btn-danger">Delete</button>
+                                    <button type="submit" asp-page-handler="EditDefinedRole" class="btn btn-sm btn-success">Edit</button>
+                                }
+                            </div>
+                        </div>
+                    </form>
+                    <hr />
+                }
+
+
 
             </div>
+            <div id="list-overview-info" class="tab-pane fade">
+                <form method="post">
 
+                    <div class="form-row">
+                        <div class="col">
+                            <label class="small font-weight-bold">Introduction: </label>
+                            <textarea class="form-control form-control-sm small" asp-for="@Model.Overview.Introduction"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="small font-weight-bold">Programming Languages : </label>
+
+                        @for (int i = 0; i < Model.Overview.ProgrammingLanguages.Count; i++)
+                        {
+                            <div class="form-row">
+                                <div class="col-sm-6">
+                                    <input class="form-control form-control-sm" asp-for="@Model.Overview.ProgrammingLanguages[i].Technology" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control form-control-sm" asp-for="@Model.Overview.ProgrammingLanguages[i].TechnologyUse"></textarea>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label class="small font-weight-bold">Scripting Languages : </label>
+                        <div class="form-group" id="scripting-language-one">
+                            @for (int i = 0; i < Model.Overview.ScriptingLanguages.Count; i++)
+                            {
+                                <input class="form-control form-control-sm" id="script-entry-one" asp-for="@Model.Overview.ScriptingLanguages[i].Technology" />
+                                <textarea class="form-control form-control-sm" id="script-entry-two" asp-for="@Model.Overview.ScriptingLanguages[i].TechnologyUse"></textarea>
+                            }
+                        </div>
+
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-primary" onclick="clone_inputs(['script-entry-one','script-entry-two'],'scripting-language-one', ['input','textarea'])">Add</button>
+                            <button type="button" class="btn btn-primary" onclick="remove_input('script-entry-one')">Remove</button>
+                        </div>
+
+                    </div>
+                    
+                    <hr/>
+                    <button type="submit" class="btn btn-primary" asp-page-handler="UpdateOverview">Save</button>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="list-experience-update" role="tabpanel" aria-labelledby="list-experience-update-list">
+
+                @if (Model.Experiences.Count > 0)
+                {
+                    <form class="form-inline" method="post">
+                        <label class="small font-weight-bold">Entry ID : </label>
+                        <select asp-for="@Model.Experience.ObjectID" class="form-control form-control-sm ml-2 mr-2">
+                            <option>0</option>
+                            @for (int i = 0; i < Model.Experiences.Count; i++)
+                            {
+                                <option>@Model.Experiences[i].ObjectID</option>
+                            }
+                        </select>
+                        <button type="submit" asp-page-handler="DeleteExperienceEntry" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                }
+
+                <form method="post">
+                    <button class="btn btn-sm btn-info btn-block mb-1 mt-2" type="button" data-toggle="collapse" data-target="#entry-new-experience" aria-expanded="false" aria-controls="entry-new-experience">
+                        Add A New Expereince
+                    </button>
+
+                    <div class="collapse" id="entry-new-experience">
+                        <div class="container-fluid border rounded">
+                            <input asp-for="@Model.Experience.ObjectID" hidden type="number" value="@(Model.Experiences.Count+2001)" />
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label class="small font-weight-bold">Start Month:</label>
+                                        <select asp-for="@Model.Experience.StartMonth" class="form-control form-control-sm" required>
+                                            <option>January</option>
+                                            <option>Febuary</option>
+                                            <option>March</option>
+                                            <option>April</option>
+                                            <option>May</option>
+                                            <option>June</option>
+                                            <option>July</option>
+                                            <option>August</option>
+                                            <option>September</option>
+                                            <option>October</option>
+                                            <option>November</option>
+                                            <option>December</option>
+                                        </select>
+
+                                        <label class="small font-weight-bold">End Month:</label>
+                                        <select asp-for="@Model.Experience.EndMonth" class="form-control form-control-sm" required>
+                                            <option>January</option>
+                                            <option>Febuary</option>
+                                            <option>March</option>
+                                            <option>April</option>
+                                            <option>May</option>
+                                            <option>June</option>
+                                            <option>July</option>
+                                            <option>August</option>
+                                            <option>September</option>
+                                            <option>October</option>
+                                            <option>November</option>
+                                            <option>December</option>
+                                        </select>
+
+                                        <label class="small font-weight-bold">Company Name:</label>
+                                        <input asp-for="@Model.Experience.Company" class="form-control form-control-sm" placeholder="Company" required />
+
+                                        <label class="small font-weight-bold">Job Title:</label>
+                                        <input asp-for="@Model.Experience.Title" class="form-control form-control-sm" placeholder="Job Title" required />
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label class="small font-weight-bold">Start Year:</label>
+                                        <input asp-for="@Model.Experience.StartYear" class="form-control form-control-sm" placeholder="Start Year" required />
+
+                                        <label class="small font-weight-bold">End Year:</label>
+                                        <input asp-for="@Model.Experience.EndYear" class="form-control form-control-sm" placeholder="End Year" required />
+
+                                        <label class="small font-weight-bold">Employment Type:</label>
+                                        <select asp-for="@Model.Experience.EmploymentType" class="form-control form-control-sm" required>
+                                            <option>Full-Time</option>
+                                            <option>Part-Time</option>
+                                            <option>Contract</option>
+                                            <option>Self-Employeed</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <label class="small font-weight-bold">Job Tasks</label>
+                                <div class="form-group" id="new-job-tasks">
+                                    <textarea asp-for="@Model.Experience.Tasks" class="form-control small" id="new-job-task"></textarea>
+                                </div>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" class="btn btn-primary" onclick="clone_input('new-job-task','new-job-tasks', false)">Add</button>
+                                    <button type="button" class="btn btn-primary" onclick="remove_input('new-job-task')">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" asp-page-handler="AddNewExperience" class="btn btn-sm btn-primary" tabindex="9">Add</button>
+                    </div>
+                </form>
+
+                <hr />
+
+                @if (Model.Experiences.Count > 0)
+                {
+                    for (int i = 0; i < Model.Experiences.Count; i++)
+                    {
+                        <form method="post">
+                            <button class="btn btn-sm btn-dark btn-block mb-1 mt-1" type="button" data-toggle="collapse" data-target="#entry-@Model.Experiences[i].ObjectID" aria-expanded="false" aria-controls="entry-@Model.Experiences[i].ObjectID">
+                                Entry ID - @Model.Experiences[i].ObjectID : @Model.Experiences[i].Company
+                            </button>
+
+                            <div class="collapse" id="entry-@Model.Experiences[i].ObjectID">
+                                <div class="container-fluid border rounded">
+                                    <label class="small font-weight-bold" value="">Job Entry ID: @Model.Experiences[i].ObjectID </label>
+                                    <input asp-for="@Model.Experiences[i].ObjectID" hidden type="number" />
+                                    <div class="form-group">
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <label class="small font-weight-bold">Start Month:</label>
+                                                <select asp-for="@Model.Experiences[i].StartMonth" class="form-control form-control-sm">
+                                                    <option>January</option>
+                                                    <option>Febuary</option>
+                                                    <option>March</option>
+                                                    <option>April</option>
+                                                    <option>May</option>
+                                                    <option>June</option>
+                                                    <option>July</option>
+                                                    <option>August</option>
+                                                    <option>September</option>
+                                                    <option>October</option>
+                                                    <option>November</option>
+                                                    <option>December</option>
+                                                </select>
+
+                                                <label class="small font-weight-bold">End Month:</label>
+                                                <select asp-for="@Model.Experiences[i].EndMonth" class="form-control form-control-sm">
+                                                    <option>January</option>
+                                                    <option>Febuary</option>
+                                                    <option>March</option>
+                                                    <option>April</option>
+                                                    <option>May</option>
+                                                    <option>June</option>
+                                                    <option>July</option>
+                                                    <option>August</option>
+                                                    <option>September</option>
+                                                    <option>October</option>
+                                                    <option>November</option>
+                                                    <option>December</option>
+                                                </select>
+
+                                                <label class="small font-weight-bold">Company Name:</label>
+                                                <input asp-for="@Model.Experiences[i].Company" class="form-control form-control-sm" placeholder="Company" />
+
+                                                <label class="small font-weight-bold">Job Title:</label>
+                                                <input asp-for="@Model.Experiences[i].Title" class="form-control form-control-sm" placeholder="Job Title" />
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <label class="small font-weight-bold">Start Year:</label>
+                                                <input asp-for="@Model.Experiences[i].StartYear" class="form-control form-control-sm" placeholder="Start Year" />
+
+                                                <label class="small font-weight-bold">End Year:</label>
+                                                <input asp-for="@Model.Experiences[i].EndYear" class="form-control form-control-sm" placeholder="End Year" />
+
+                                                <label class="small font-weight-bold">Employment Type:</label>
+                                                <select asp-for="@Model.Experiences[i].EmploymentType" class="form-control form-control-sm">
+                                                    <option>Full-Time</option>
+                                                    <option>Part-Time</option>
+                                                    <option>Contract</option>
+                                                    <option>Self-Employeed</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <label class="small font-weight-bold">Job Tasks</label>
+                                        <div class="form-group" id="job-tasks-@Model.Experiences[i].ObjectID">
+                                            @for (int a = 0; a < Model.Experiences[i].Tasks.Count; a++)
+                                            {
+                                                <textarea asp-for="@Model.Experiences[i].Tasks[a]" class="form-control small" id="job-task-@Model.Experiences[i].ObjectID"></textarea>
+                                            }
+                                        </div>
+
+
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <button type="button" class="btn btn-primary" onclick="clone_input('job-task-@Model.Experiences[i].ObjectID','job-tasks-@Model.Experiences[i].ObjectID', true)">Add</button>
+                                            <button type="button" class="btn btn-primary" onclick="remove_input('job-task-@Model.Experiences[i].ObjectID')">Remove</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <hr />
+                                <button type="submit" asp-page-handler="UpdateExperienceHistory" class="btn btn-sm btn-primary" tabindex="9">Update</button>
+                            </div>
+                           
+                        </form>
+                    }
+                }
+
+                            
+                    </div>
+            <div id="list-projects-update" class="tab-pane fade">
+                @if (Model.Projects.Count > 0)
+                {
+                    <form class="form-inline" method="post">
+                        <label class="small font-weight-bold">Entry ID : </label>
+                        <select asp-for="@Model.Project.EntryID" class="form-control form-control-sm ml-2 mr-2">
+                            <option>0</option>
+                            @for (int i = 0; i < Model.Projects.Count; i++)
+                            {
+                                <option>@Model.Projects[i].EntryID</option>
+                            }
+                        </select>
+                        <button type="submit" asp-page-handler="DeleteProjectEntry" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                }
+                <form method="post">
+                    <button class="btn btn-sm btn-info btn-block mb-1 mt-2" type="button" data-toggle="collapse" data-target="#entry-new-project" aria-expanded="false" aria-controls="entry-new-project">
+                        Add New Project Entry
+                    </button>
+
+                    <div class="collapse" id="entry-new-project">
+                        <div class="form-row">
+                            <input class="form-control" hidden value="@(1001 + Model.Projects.Count)" asp-for="@Model.Project.EntryID" />
+                            <div class="col-sm-6">
+                                <label class="small font-weight-bold">Company:</label>
+                                <input asp-for="@Model.Project.Company" class="form-control form-control-sm mb-sm-1" required />
+                                <label class="small font-weight-bold">Start Month:</label>
+                                <select asp-for="@Model.Project.StartMonth" class="form-control form-control-sm mb-sm-1" required>
+                                    <option>January</option>
+                                    <option>Febuary</option>
+                                    <option>March</option>
+                                    <option>April</option>
+                                    <option>May</option>
+                                    <option>June</option>
+                                    <option>July</option>
+                                    <option>August</option>
+                                    <option>September</option>
+                                    <option>October</option>
+                                    <option>November</option>
+                                    <option>December</option>
+                                </select>
+                                <label class="small font-weight-bold">End Month:</label>
+                                <select asp-for="@Model.Project.EndMonth" class="form-control form-control-sm mb-sm-1" required>
+                                    <option>January</option>
+                                    <option>Febuary</option>
+                                    <option>March</option>
+                                    <option>April</option>
+                                    <option>May</option>
+                                    <option>June</option>
+                                    <option>July</option>
+                                    <option>August</option>
+                                    <option>September</option>
+                                    <option>October</option>
+                                    <option>November</option>
+                                    <option>December</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="small font-weight-bold">Project Title:</label>
+                                <input asp-for="@Model.Project.ProjectTitle" class="form-control form-control-sm mb-sm-1" />
+                                <label class="small font-weight-bold">Start Year:</label>
+                                <input asp-for="@Model.Project.StartYear" class="form-control form-control-sm mb-sm-1" type="number" />
+                                <label class="small font-weight-bold">End Year:</label>
+                                <input asp-for="@Model.Project.EndYear" class="form-control form-control-sm mb-sm-1" type="number" />
+                            </div>
+                        </div>
+                        <label class="small font-weight-bold">Project Overview:</label>
+                        <textarea asp-for="@Model.Project.Overview" class="form-control form-control-sm" required></textarea>
+
+                        <div class="form-row">
+                            <div class="col-sm-6">
+                                <div id="tech-inputs">
+                                    <label class="small font-weight-bold">Technologies Utilized:</label>
+                                    <input asp-for="@Model.Project.Technology" class="form-control form-control-sm mb-sm-1" id="tech-input" />
+                                </div>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" class="btn btn-primary" onclick="clone_input('tech-input','tech-inputs')">Add</button>
+                                    <button type="button" class="btn btn-primary" onclick="remove_input('tech-input')">Remove</button>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div id="program-langs">
+                                    <label class="small font-weight-bold">Languages Utilized:</label>
+                                    <input asp-for="@Model.Project.Languages" class="form-control form-control-sm mb-sm-1" id="program-lang" />
+                                </div>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" class="btn btn-primary" onclick="clone_input('program-lang','program-langs')">Add</button>
+                                    <button type="button" class="btn btn-primary" onclick="remove_input('program-lang')">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <button type="submit" asp-page-handler="AddNewProjectEntry" class="btn btn-sm btn-primary m-2" tabindex="9">Add</button>
+                    </div>
+                </form>
+                <hr />
+
+                <div class="accordion" id="project-history-update">
+                    @if (Model.Projects.Count > 0)
+                    {
+                        @for (int i = 0; i < Model.Projects.Count; i++)
+                        {
+                            <form method="post">
+                                <button class="btn btn-sm btn-dark btn-block mb-1 mt-2" type="button" data-toggle="collapse" data-target="#project-entry-@Model.Projects[i].EntryID" aria-expanded="false" aria-controls="project-entry-@Model.Projects[i].EntryID">
+                                    Entry ID - @Model.Projects[i].EntryID : @Model.Projects[i].ProjectTitle
+                                </button>
+
+                                <div class="collapse" id="project-entry-@Model.Projects[i].EntryID">
+                                    <div class="form-row">
+                                        <input class="form-control" hidden asp-for="@Model.Projects[i].EntryID" />
+                                        <div class="col-sm-6">
+                                            <label class="small font-weight-bold">Company:</label>
+                                            <input asp-for="@Model.Projects[i].Company" class="form-control form-control-sm mb-sm-1" required />
+                                            <label class="small font-weight-bold">Start Month:</label>
+                                            <select asp-for="@Model.Projects[i].StartMonth" class="form-control form-control-sm mb-sm-1" required>
+                                                <option>January</option>
+                                                <option>Febuary</option>
+                                                <option>March</option>
+                                                <option>April</option>
+                                                <option>May</option>
+                                                <option>June</option>
+                                                <option>July</option>
+                                                <option>August</option>
+                                                <option>September</option>
+                                                <option>October</option>
+                                                <option>November</option>
+                                                <option>December</option>
+
+                                            </select>
+                                            <label class="small font-weight-bold">End Month:</label>
+                                            <select asp-for="@Model.Projects[i].EndMonth" class="form-control form-control-sm mb-sm-1" required>
+                                                <option>January</option>
+                                                <option>Febuary</option>
+                                                <option>March</option>
+                                                <option>April</option>
+                                                <option>May</option>
+                                                <option>June</option>
+                                                <option>July</option>
+                                                <option>August</option>
+                                                <option>September</option>
+                                                <option>October</option>
+                                                <option>November</option>
+                                                <option>December</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="small font-weight-bold">Project Title:</label>
+                                            <input asp-for="@Model.Projects[i].ProjectTitle" class="form-control form-control-sm mb-sm-1" />
+                                            <label class="small font-weight-bold">Start Year:</label>
+                                            <input asp-for="@Model.Projects[i].StartYear" class="form-control form-control-sm mb-sm-1" type="number" />
+                                            <label class="small font-weight-bold">End Year:</label>
+                                            <input asp-for="@Model.Projects[i].EndYear" class="form-control form-control-sm mb-sm-1" type="number" />
+                                        </div>
+                                    </div>
+                                    <label class="small font-weight-bold">Project Overview:</label>
+                                    <textarea asp-for="@Model.Projects[i].Overview" class="form-control form-control-sm" required></textarea>
+
+                                    <div class="form-row">
+                                        <div class="col-sm-6">
+                                            <div id="tech-inputs-@Model.Projects[i].EntryID">
+                                                <label class="small font-weight-bold">Technologies Utilized:</label>
+                                                @for (int a = 0; a < @Model.Projects[i].Technology.Count; a++)
+                                                {
+                                                    <input asp-for="@Model.Projects[i].Technology[a]" class="form-control form-control-sm mb-sm-1" id="tech-input-@Model.Projects[i].EntryID" />
+                                                }
+
+                                            </div>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <button type="button" class="btn btn-primary" onclick="clone_input('tech-input-@Model.Projects[i].EntryID','tech-inputs-@Model.Projects[i].EntryID', true)">Add</button>
+                                                <button type="button" class="btn btn-primary" onclick="remove_input('tech-input-@Model.Projects[i].EntryID')">Remove</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div id="program-langs-@Model.Projects[i].EntryID">
+                                                <label class="small font-weight-bold">Languages Utilized:</label>
+                                                @for (int b = 0; b < @Model.Projects[i].Languages.Count; b++)
+                                                {
+                                                    <input asp-for="@Model.Projects[i].Languages[b]" class="form-control form-control-sm mb-sm-1" id="program-lang-@Model.Projects[i].EntryID" />
+                                                }
+                                            </div>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <button type="button" class="btn btn-primary" onclick="clone_input('program-lang-@Model.Projects[i].EntryID','program-langs-@Model.Projects[i].EntryID', true)">Add</button>
+                                                <button type="button" class="btn btn-primary" onclick="remove_input('program-lang-@Model.Projects[i].EntryID')">Remove</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <button type="submit" asp-page-handler="UpdateProjectEntry" class="btn btn-sm btn-primary" tabindex="9">Update</button>
+                                </div>
+                            </form>
+                        }
+                    }
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 
